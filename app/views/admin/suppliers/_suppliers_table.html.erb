@@ -1,0 +1,25 @@
+<table class="index">
+  <thead>
+  	<tr>
+  		<th><%= t("supplier_name") %></th>
+  		<th></th>
+  	</tr>
+  </thead>
+  <tbody>
+    <% unless supplier.blank? %>
+      <tr id="<%= dom_id(supplier, :sel)%>">
+        <td><%= supplier.name %></td>
+  	    <td class="actions">
+          <%= image_tag "spinner.gif", :style => "display:none", :id => "#{dom_id(supplier, :rem_spinner)}" %>		                         
+		      <%= link_to_remote icon('delete') + ' ' + t('remove'), 
+		                         {:url => remove_admin_product_supplier_url(@product, supplier),
+		                         :loading => "jQuery('##{dom_id(supplier, :rem_spinner)}').show()",
+		                         :update => 'selected-supplier',
+		                         :complete => "jQuery('##{dom_id(supplier, :sel)}').remove(); jQuery('##{dom_id(supplier, :rem_spinner)}').hide();"}, :class => 'iconlink' %>
+  	    </td>        
+      </tr>
+    <% else %>
+     <tr><td colspan="3"><%= t('none') %>.</td></tr>
+    <% end %>
+  </tbody>
+</table>

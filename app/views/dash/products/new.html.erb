@@ -1,0 +1,38 @@
+<%= form_for [:dash,@product] do |f| %>
+  <%= f.label :name %>
+  <br />
+  <%= f.text_field :name %>
+  <br />
+  <%= f.label :description %>
+  <br />
+  <%= f.text_area :description %>
+  <br />
+  <%= f.label :price %>
+  <%= f.text_field :price %>
+  <br />
+  <%= f.label :number_of_units %>
+  <%= f.text_field :number_of_units %>
+  <br />
+  <%= f.label :unit %>
+  <%= f.select :unit, {"piece" => "piece", "pound" => "pound", "ounce" => "ounce", "flat" => "flat", "bushel" => "bushel", "basket" => "basket", "dozen" => "dozen", "bag" => "bag", "box" => "box", "gram" => "gram", "gallon" => "gallon", "liter" => "liter", "pint" => "pint", "quart" => "quart", "pack" => "pack"} %>
+  <h3>Delivery Method</h3>
+  <%= f.check_box :shipping %><%= f.label :shipping %>
+  <br />
+  <%= f.label :shipping_method, :for => "product_shipping_method_id" %> <%= f.collection_select(:shipping_method_id, ShippingMethod.all, :id, :name) %>
+  <br />
+  <%= f.label :cost_per_unit %>
+  <%= f.text_field :cost_per_unit %>
+  <br /><br />
+  <%= f.check_box :pickup %><%= f.label :pickup %>
+  <br />
+  <%= f.label :pickup_place, :for => "product_pickup_id" %>
+  <%= f.collection_select(:pickup_id, Pickup.all, :id, :location_name) %>
+  <h3>Category</h3>
+  <ul>
+  <% @options.each do |o| %>
+    <li><%= check_box_tag o.name, o.id %><%= label_tag o.name %></li>
+  <% end %>
+  </ul>
+  <%= f.submit "Create" %>
+
+<% end %>

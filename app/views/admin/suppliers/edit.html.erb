@@ -1,0 +1,20 @@
+<%= render :partial => 'admin/suppliers/supplier_tabs', :locals => {:current => "Supplier Details"} %>
+
+<% form_for @supplier, :url => object_url, :html => { :method => :put, :multipart => true } do |f| %>
+  <%= render :partial => "edit_form", :locals => { :f => f } %>
+
+  <table id="hours">
+    <%= f.fields_for @supplier.hours.new do |f| %>
+      <% ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].each do |day| %>
+        <%= render :partial => "edit_hours_form", :locals => { :day => day, :f => f } %>
+      <% end %>
+    <% end %>
+  </table>
+
+  <p class="form-buttons">
+  <%= button t("update") %>
+  <%= t('or') %> <%= link_to t("cancel"), "#", :id => "cancel_link" %>
+  </p>
+<% end %>
+
+<%= render "image_form" %>

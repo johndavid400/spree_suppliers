@@ -1,0 +1,20 @@
+<table class="index">
+  <tbody id='line-items'>
+    <tr>
+      <th><%= t('item_description') %></th>
+	  <th class="supplier"><%= t('supplier_name') %></th>
+      <th class="price"><%= t('price') %></th>
+      <th class="qty"><%= t('qty') %></th>
+      <th class="total_display"><span><%= t('total') %></span></th>
+    </tr>
+    <% @order.line_items.each do |item| %>
+      <tr >
+        <td width="300"><%=item.variant.product.name-%> <%= "(" + variant_options(item.variant) + ")" unless item.variant .option_values.empty? %></td>
+        <td valign="top"><%=item.variant.product.supplier.name if item.variant.product.supplier -%></td>
+        <td valign="top"><%= number_to_currency item.price -%></td>
+        <td valign="top"><%=item.quantity-%></td>
+        <td valign="top" class="total_display"><span><%= number_to_currency (item.price * item.quantity)-%></span></td>
+      </tr>
+    <% end %>      
+  </tbody>
+</table>

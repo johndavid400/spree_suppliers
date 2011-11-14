@@ -1,0 +1,79 @@
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Company name:</td>
+    <td><%= f.text_field :title %></td>
+  </tr>
+  <tr>
+    <td valign="top">Company Description:</td>
+    <td><%= f.text_field :notes %></td>
+  </tr>
+</table>
+
+<h3>Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Phone:</td>
+    <td><%= f.text_field :phone %></td>
+  </tr>
+  <tr>
+    <td valign="top">Address:</td>
+    <td><%= f.text_field :address1 %></td>
+  </tr>
+  <tr>
+    <td valign="top">Town:</td>
+    <td><%= f.text_field :town %></td>
+  </tr>
+  <tr>
+    <td valign="top">State:</td>
+    <td><%= f.collection_select :state_id, State.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
+  </tr>
+  <tr>
+    <td valign="top">Market:</td>
+    <td><%= f.collection_select :city_id, City.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
+  </tr>
+  <tr>
+    <td valign="top">Zip-code:</td>
+    <td><%= f.text_field :zip_code %></td>
+  </tr>
+  <tr>
+    <td valign="top">Fax:</td>
+    <td><%= f.text_field :fax %></td>
+  </tr>
+  <tr>
+    <td valign="top">Email:</td>
+    <td><%= f.text_field :email %></td>
+  </tr>
+  <tr>
+    <td valign="top">Facebook:</td>
+    <td><%= f.text_field :facebook %></td>
+  </tr>
+  <tr>
+    <td valign="top">Twitter:</td>
+    <td><%= f.text_field :twitter %></td>
+  </tr>
+  <tr>
+    <td valign="top">Website:</td>
+    <td><%= f.text_field :website %></td>
+  </tr>
+  <tr>
+    <td valign="top">Products Sold:</td>
+    <td><%= f.text_area :products_sold %></td>
+  </tr>
+  <tr>
+    <td><%= f.hidden_field :state_id, :value => @state.id %></td>
+  </tr>
+</table>
+
+<h3>Proprietor Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Owner Name:</td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+  <tr>
+    <td valign="top">Owner Description:</td>
+    <td><%= f.text_field :description2 %></td>
+  </tr>
+</table>
+
+

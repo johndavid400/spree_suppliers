@@ -1,0 +1,153 @@
+<div id="main-city">
+  <div class="header-left">
+    <h1><%= @city.name %>, <%= @city.state.abbr %></h1>
+    <div class="city-specialties">
+      <h4>City Specialties:</h4>
+      <% ["Indie Candy", "Hewett's Farm Honey", "organic"].each do |special| %>
+        <li><%= link_to special, products_url(:keywords => special) %>  </li>
+      <% end %>
+    </div>
+  </div><!-- END div.header-left -->
+
+  <div class="header-right">
+  <div class="locavore-img">
+        <img width="75" src="/images/locavores/birmingham-locavore-emily-brown.png" alt="Birmingham Locavore - Emily Brown">
+      </div><!-- END div.locavore-img -->
+      <div class="locavore-bio">
+        <h4>Emily Brown</h4>
+        <p>Emily Brown is our Birmingham locavore. She's happily exploring all the local food the area has to offer and writing about them for Freshfully.</p>
+      </div><!-- END div.locavore-bio -->
+  </div><!-- END div.header-right -->
+
+</div><!-- END div.main-city -->
+
+<div class="city-left">
+  <h3>Recent Articles</h3>
+  <% if @articles.any? %>
+    <div class="recent_article_wrap">
+      <% @articles.each do |article| %>
+        <% if article.featured == true %>
+          <div class="recent_article">
+            <div class="article_image">
+              <%= link_to sized_image(article.images.first, '75x75#'), pretty_article_path(article.slug, :state => 'al', :city => 'birmingham')  %>
+            </div>
+            <div class="article_content">
+              <h3><%= link_to article.title, pretty_article_path(article.slug, :state => 'al', :city => 'birmingham') %></h3>
+              <p class="author">Emily Brown, Posted: <%= article.created_at.strftime("%m/%d/%Y at %I:%M%p") %></p>
+              <p><%= article.subtitle %></p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+  <table>
+    <%= link_to "Read More Articles", articles_path({:id => @city.id}) %>
+  </table>
+</div><!-- END div.city-left -->
+
+<div class="city-right">
+  <div id="cities">
+    <%= gmaps(:markers     => { :data => @json },
+    :map_options => { :auto_adjust => true }) %>
+    <button id="farmers">Farmers</button>
+    <button id="markets">Farmers' Markets</button>
+    <button id="restaurants">Restaurants</button>
+  </div>
+  <div class="seasonal">
+    <div class="season-current">
+      <h3>In Season: November </h3>
+      <div class="season-box">
+        <p>Greens, Herbs, Pecans, Sweet Potatoes, Winter Squash, Perimmons, Rutabegas, Citrus</p>
+      </div><!-- END div.season-box -->
+    </div><!-- END div.season-current -->
+    <div class="season-next">
+      <h3>In Season: December</h3>
+      <div class="season-box">
+        <p>Greens, Pecans, Winter Squash, Persimmons</p>
+      </div><!-- END div.season-box -->
+    </div><!-- END div.season-next -->
+  </div>
+</div><!-- END div.city-right -->
+
+<div class="local-products">
+  <h3>Local Products</h3>
+  <div class="product_listing">
+    <% if @products.any? %>
+      <ul class="product-listing">
+        <% @products.each do |product| %>
+          <% if Spree::Config[:show_zero_stock_products] || product.has_stock? %>
+            <li id="product_<%= product.id %>">
+            <%= link_to sized_image(product.images.first, '100x100#'), pretty_product_path(product, :state => product.supplier.state.abbr, :supplier => product.supplier.slug) %>
+            <%= link_to raw(product.name + "<span class='vendor'>#{product.supplier.title}</span> <span class='price selling'> #{number_to_currency(product.price)}</span>"), pretty_product_path(product, :state => product.supplier.state.abbr, :supplier => product.supplier.slug), :class => 'info' %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>
+
+<div class="city-footer">
+  <div class="recipes">
+    <h2>Recipes: Coming Soon</h2>
+  </div>
+  <div class="twitter-box">
+    <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script>
+      new TWTR.Widget({
+      version: 2,
+      type: 'list',
+      rpp: 30,
+      interval: 30000,
+      title: 'Local food resources in Birmingham',
+      subject: 'Freshfully',
+      width: 324,
+      height: 290,
+      theme: {
+      shell: {
+      background: '#DDF0EB',
+      color: '#505A5C'
+      },
+      tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#EF4242'
+      }
+      },
+      features: {
+      scrollbar: true,
+      loop: false,
+      live: true,
+      behavior: 'all'
+      }
+      }).render().setList('freshfully', 'freshfully-birmingham').start();
+    </script>
+  </div><!-- END div.twitter-box -->
+  <div class="fb-like-box" data-href="http://www.facebook.com/freshfully" data-width="300" data-show-faces="true" data-stream="false" data-header="true"></div>
+  <div id="fb-root"></div>
+
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    $("button#farmers").click(function (){
+      Gmaps.map.replaceMarkers( <%=raw @farmers %>);
+    });
+    $("button#all").click(function (){
+      Gmaps.map.replaceMarkers( <%=raw @json %>);
+    });
+    $("button#markets").click(function(){
+      Gmaps.map.replaceMarkers( <%=raw @markets %>);
+    });
+    $("button#restaurants").click(function(){
+      Gmaps.map.replaceMarkers( <%=raw @restaurants %>);
+    });
+    
+  </script>
+</div><!-- END div.city-footer -->
+
+<div class="clear"></div><!-- END div.clear -->

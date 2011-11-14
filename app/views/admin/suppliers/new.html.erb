@@ -1,0 +1,22 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1><%= t("new_supplier") %></h1>
+
+<% form_for @supplier, :url => collection_url, :html => { :multipart => true } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+
+  <table id="hours">
+    <%= f.fields_for @supplier.hours.new do |f| %>
+      <% ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].each do |day| %>
+        <%= render :partial => "hours_form", :locals => { :day => day, :f => f } %>
+      <% end %>
+    <% end %>
+  </table>
+
+  <p class="form-buttons">
+  <%= button t("new") %>
+  <%= t('or') %> <%= link_to t("cancel"), "#", :id => "cancel_link" %>
+  </p>
+<% end %>
+
+<%= render "image_form" %>

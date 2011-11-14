@@ -1,0 +1,67 @@
+
+<% @invoices.each do |invoice| %>
+
+  <div class="supplier_invoice">
+    <h3><%= invoice.supplier.title %></h3>
+    <table class="index">
+      <tr>
+        <th>Product Name</th>
+        <th>Product price</th>
+        <th>Quantity</th>
+        <th>Totals</th>
+      </tr>
+
+      <% invoice.items.each do |item| %>
+        <tr bgcolor="#F9FFB9">
+          <td width="600px"><%= item.product.name %> <%= "(" + variant_options(item.line_item.variant) + ")" unless item.line_item.variant.option_values.empty? %></td>
+          <td width="150px"><%= number_to_currency(item.line_item.variant.price) %></td>
+          <td width="75px"><%= item.quantity %></td>
+          <td><%= number_to_currency(item.line_item.variant.price * item.quantity) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Order-total</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total) %></td>
+      </tr>
+      <tr>
+        <td>-(Freshfully fee)</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total * @fee) %></td>
+      </tr>
+      <tr bgcolor="#CCFFB3">
+        <td>Sub-total</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total * (1 -@fee)) %></td>
+      </tr>
+
+      <tr bgcolor="#b2f2ff">
+        <td>Delivery type:</td>
+        <% @delivery = Delivery.find(:all, :conditions => { :order_id => @order.id, :supplier_id => invoice.supplier_id}) %>
+        <% if @delivery.first.pick_up == true %>
+          <td bgcolor="#e5b2ff">Pickup</td>
+          <td><%= Pickup.find_by_id(@delivery.first.pickup_id).name %></td>
+          <td>
+            <%= Pickup.find_by_id(@delivery.first.pickup_id).pickup_location.address1 %>,
+            <%= Pickup.find_by_id(@delivery.first.pickup_id).pickup_location.address2 %> - 
+            <%= Pickup.find_by_id(@delivery.first.pickup_id).pickup_location.city %>,
+            <%= State.find_by_id(Pickup.find_by_id(@delivery.first.pickup_id).pickup_location.state_id).abbr %>
+            <%= Pickup.find_by_id(@delivery.first.pickup_id).pickup_location.zipcode %>
+          </td>
+        <% else %>
+          <td bgcolor="#ffbfb2">Shipping</td>
+          <td><%= @delivery.first.shipping_method.name %></td>
+          <td></td>
+        <% end %>
+      </tr>
+
+    </table>
+  </div>
+<% end %>
+
+
+
+

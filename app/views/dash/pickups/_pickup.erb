@@ -1,0 +1,3 @@
+<li><% location = PickupLocation.find_by_id(pickup.pickup_location_id) %>
+<%= link_to location.location_name, dash_pickup_path(pickup) %>
+</li>

@@ -1,0 +1,14 @@
+<li>
+  <div class="vendor-image">
+    <%= link_to sized_image(supplier.images.first, '75x75#'), supplier_path(supplier)  %>
+  </div>
+  
+  <div class="article-content">
+    <h3><%= link_to supplier.title, supplier_path(supplier) %> </h3>
+    <span class="city-state"><%= supplier.city.name %>, <%= supplier.state.name %></span>TEST 2
+    <p class="supplier_about">
+    <%= supplier.notes%> <br />
+    <%= supplier.address1 %> - <%= supplier.city.name %>, <%= supplier.state.name %><br />
+    <span class="phone"><%= supplier.phone %></span></p>
+  </div>
+</li>

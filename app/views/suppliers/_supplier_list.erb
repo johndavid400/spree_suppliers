@@ -1,0 +1,20 @@
+	<li class="suppliers">
+		<div class="vendor-image">
+		  <%= link_to sized_image(supplier.images.first, '75x75#'), supplier_path(supplier)  %>
+		</div>
+		
+    <div class="article-content">
+      <% if supplier.title %>
+        <h4><%= link_to supplier.title, pretty_supplier_path(supplier.slug, :state => supplier.state.abbr) %> </h4>
+      <% else %>
+        <h4><%= link_to supplier.name, supplier_path(supplier) %> </h4>
+      <% end %>
+      
+		  <% if supplier.phone %><span class="phone"><%= supplier.phone %></span><% end %>
+		  <p class="supplier_about">
+		  <%= supplier.notes%> <br />
+		  <%= supplier.address1 %><br />
+		  <% if supplier.town %><%= supplier.town %>, <% end %><%= supplier.state.abbr %> <% if supplier.zip_code  %> <%= supplier.zip_code %> <% end %>
+		  </p>
+		</div>
+	</li>

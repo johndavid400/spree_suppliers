@@ -1,0 +1,17 @@
+<div class="search-sidebar">
+  <%= form_for @search do |f| %>
+    <p>
+      <%= f.label :search_vendors %>
+      <%= f.text_field :name_or_title_or_zip_code_contains %>
+    </p>
+    <p class = "button"><%= f.submit "Search" %></p>
+  <% end %>
+</div><!-- END div.search-sidebar -->
+
+<div class="search-list">
+
+	<%= render :partial => "suppliers/supplier_list", :collection => @suppliers, :as => :supplier %>
+
+</div><!-- END div.search-list -->
+
+<div class="clear"></div><!-- END div.clear -->

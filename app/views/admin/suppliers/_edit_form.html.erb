@@ -1,0 +1,75 @@
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Company name:</td>
+    <td><%= f.text_field :title, :value => @supplier.title %></td>
+  </tr>
+  <tr>
+    <td valign="top">Company Description:</td>
+    <td><%= f.text_field :notes, :value => @supplier.notes %></td>
+  </tr>
+</table>
+
+<h3>Company Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Phone:</td>
+    <td><%= f.text_field :phone, :value => @supplier.phone %></td>
+  </tr>
+  <tr>
+    <td valign="top">Address:</td>
+    <td><%= f.text_field :address1, :value => @supplier.address1 %></td>
+  </tr>
+  <tr>
+    <td valign="top">Town:</td>
+    <td><%= f.text_field :town, :value => @supplier.town %></td>
+  </tr>
+  <tr>
+    <td valign="top">State:</td>
+    <td><%= f.collection_select :state_id, State.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
+  </tr>
+  <tr>
+    <td valign="top">Market:</td>
+    <td><%= f.collection_select :city_id, City.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
+  </tr>
+  <tr>
+    <td valign="top">Zip-code:</td>
+    <td><%= f.text_field :zip_code, :value => @supplier.zip_code %></td>
+  </tr>
+  <tr>
+    <td valign="top">Fax:</td>
+    <td><%= f.text_field :fax, :value => @supplier.fax %></td>
+  </tr>
+  <tr>
+    <td valign="top">Email:</td>
+    <td><%= f.text_field :email, :value => @supplier.email %></td>
+  </tr>
+  <tr>
+    <td valign="top">Facebook:</td>
+    <td><%= f.text_field :facebook, :value => @supplier.facebook %></td>
+  </tr>
+  <tr>
+    <td valign="top">Twitter:</td>
+    <td><%= f.text_field :twitter, :value => @supplier.twitter %></td>
+  </tr>
+  <tr>
+    <td valign="top">Website:</td>
+    <td><%= f.text_field :website, :value => @supplier.website %></td>
+  </tr>
+  <tr>
+    <td valign="top">Products Sold:</td>
+    <td><%= f.text_area :products_sold %></td>
+  </tr>
+</table>
+
+<h3>Owner Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Owner Name:</td>
+    <td><%= f.text_field :name, :value => @supplier.name %></td>
+  </tr>
+  <tr>
+    <td valign="top">Owner Description:</td>
+    <td><%= f.text_field :description2, :value => @supplier.description2 %></td>
+  </tr>
+</table>
+

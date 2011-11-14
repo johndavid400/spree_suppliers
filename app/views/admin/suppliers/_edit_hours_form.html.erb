@@ -1,0 +1,18 @@
+<tr>
+  <td><h4><%= day %></h4></td>
+  <% outcome = @supplier.hours.first.send(day.downcase) %>
+  <% if outcome == "Closed" || outcome == "Information Unavailable"  %>
+    <% if outcome == "Information Unavailable" %>
+      <%  outcome = "Unavailable" %>
+    <% end %>
+    <td><%= select_tag "#{day}_closed", options_for_select(@closed, outcome)  %></td>
+  <% else %>
+    <td><%= select_tag "#{day}_closed", options_for_select(@closed, "Open")  %></td>
+  <% end %>
+  <td>From: <%= select_tag "#{day}_begin", options_for_select(@hours, find_hours(outcome)[0]) %></td>
+  <td><%= select_tag "#{day}_begin_mins", options_for_select(@minutes,find_minutes(outcome)[0]) %></td>
+  <td><%= select_tag "#{day}_begin_type", options_for_select(@periods,find_periods(outcome)[0]) %>,   to</td>
+  <td><%= select_tag "#{day}_end", options_for_select(@hours,find_hours(outcome)[1]) %><td>
+  <td><%= select_tag "#{day}_end_mins", options_for_select(@minutes, find_minutes(outcome)[1]) %></td>
+  <td><%= select_tag "#{day}_end_type", options_for_select(@periods,find_periods(outcome)[1]) %></td>
+</tr>

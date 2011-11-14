@@ -1,0 +1,36 @@
+<h1>Shipping Options</h1>
+
+<%= render :partial => 'admin/suppliers/supplier_tabs', :locals => {:current => "Shipping"} %>
+
+
+<table class="index">
+  <thead>
+    <tr>
+      <th><%= t("name") %></th>
+      <th><%= t("zone") %></th>
+      <th><%= t("action") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @supplier.shipping_methods.each do |s| %>
+      <tr>
+        <td><%= s.name %></td>
+        <td><%= s.zone.name %></td>
+        <% form_tag(:controller => 'shipping_options', :method=>'post', :multipart => true) do %>
+          <%= hidden_field_tag("supplier_id", @supplier.id) %>
+          <%= hidden_field_tag("remove[#{"id"}]", s.id) %>
+          <td><%= submit_tag "Remove" %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<% form_tag(:controller => 'shipping_options', :method=>'post', :multipart => true) do %>
+
+  <%= select_tag "shipping_options", options_from_collection_for_select(@shipping_methods, "id", "name") %>
+  <%= hidden_field_tag("supplier_id", @supplier.id) %>
+  <%= submit_tag "add" %>
+
+<% end %>
