@@ -199,7 +199,46 @@ module Suppliers
           p.save
           redirect_to edit_admin_product_path(p)
         end
+        
+        def show
+          @product = Product.find_by_permalink!(params[:id])
+          return unless @product
 
+          @variants = Variant.active.includes([:option_values, :images]).where(:product_id => @product.id)
+          @product_properties = ProductProperty.includes(:property).where(:product_id => @product.id)
+          @selected_variant = @variants.detect { |v| v.available? }
+
+          referer = request.env['HTTP_REFERER']
+
+          if referer && referer.match(HTTP_REFERER_REGEXP)
+            @taxon = Taxon.find_by_permalink($1)
+          end
+
+          @comment = Comment.new()
+          @rating = Rating.new()
+          if !current_user.nil?
+            @ratable = current_user.ratings.select {|r| r.product_id == @product.id}.size
+          else
+            @ratable = 0
+          end
+          if @product.taxons.first.nil?
+            @related_products = Product.all
+          else
+            @related_products = Taxon.find(@product.taxons.first.id).products.limit(4)
+          end
+          @json = @product.supplier.to_gmaps4rails
+          @reviews = @product.comments.paginate(:page => params[:page], :per_page => 3)
+
+          respond_with(@product)
+
+        end
+
+        def rating_review
+          @product = Product.find_by_permalink!(params[:id])
+          @product.update_attributes(params[:rating][:comment]) 
+          redirect_to :action => :show
+        end
+  
       end
 
       #### Modify the Models with changes that are only associated with the Suppliers extension
@@ -212,7 +251,13 @@ module Suppliers
         has_many :ratings
         accepts_nested_attributes_for :comments
         accepts_nested_attributes_for :ratings
-        
+        validates :name, :supplier_id, :presence => true
+
+        def self.range products, month
+          products.delete_if {|p| p.start.nil? || p.end.nil? }
+          products.delete_if {|p| !(p.start..p.end).member?(month)}
+        end
+
         def average_rating
           if self.ratings.size == 0
             return -1
