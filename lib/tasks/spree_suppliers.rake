@@ -1,8 +1,8 @@
-namespace :suppliers do
+namespace :spree_suppliers do
   desc "Copies all migrations and assets (NOTE: This will be obsolete with Rails 3.1)"
   task :install do
-    Rake::Task['suppliers:install:migrations'].invoke
-    Rake::Task['suppliers:install:assets'].invoke
+    Rake::Task['spree_suppliers:install:migrations'].invoke
+    Rake::Task['spree_suppliers:install:assets'].invoke
   end
 
   namespace :install do
