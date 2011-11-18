@@ -1,0 +1,18 @@
+This is an extension to run on top of spree 0.60.3 rails ecommerce engine.
+
+This extension provides functionality to use multiple suppliers/vendors, each selling their own products, but using a unified listing view so the customer is not affected by this and only makes one transaction. On the backend, smaller sub-orders called supplier invoices are created by grouping the products in an order by each product's supplier_id. A subtotal is generated for each supplier invoice, so the spree administrator can send out invoices to each supplier.
+
+To install: 
+
+Add to Gemfile:
+gem 'spree_supplier'
+
+run the following:
+
+bundle install
+rake spree_suppliers:install
+rake db:migrate
+rake db:seed
+
+All files are located in vendor/extensions/spree_suppliers/...
+
