@@ -51,8 +51,13 @@
    
       <h2><%= @supplier.title %></h2>
     
-  <div id="vendor_info" class="drop_light">
-    <em><%= @supplier.notes %></em>
+  <div id="vendor-notes">
+    <%= @supplier.notes %>
+    
+  </div>
+
+  <div class="vendor-info">
+    <h2>Info:</h2>
     <ul>
       <% if @supplier.phone%>
       	<li>Phone: <%= @supplier.phone %></li>
@@ -65,19 +70,29 @@
       <% if @supplier.town %><li><%= @supplier.town %>, <% end %><%= @supplier.state.name %></li>
       <% if @supplier.zip_code %><li><%= @supplier.zip_code %><% end %>
     </ul>
-  </div>
-
-  <div id="vendor_proprietor">
-    <ul>
-      <li><b>Proprietor:</b> <%=  @supplier.name %></li>
-      <li><b>Bio:</b> <%= @supplier.description2 %></li>
-    </ul>
-  </div>
-
-  <%= render :partial => "shared/hours", :locals => {:supplier => @supplier} %>
-  <h2 class="products">Products</h2>
-  <%= render "shared/products_vendor", :products => @products, :taxon => @taxon %>
+  </div><!-- END div.vendor-info -->
   
+  <% if @supplier.name %>
+  <div class="vendor-proprietor">
+    <h2>Owner/Proprietor Info:</h2>
+      <h4>Owner/Proprietor:</h4>
+      <%=  @supplier.name %>
+      
+      <% if @supplier.description2 %>
+        <h4>Bio:</h4>
+        <%= @supplier.description2 %>
+      <% end %>
+  </div>
+  <% end %>
+  
+  <div class="shop-hours">
+    <%= render :partial => "shared/hours", :locals => {:supplier => @supplier} %>
+  </div><!-- END div.shop-hours -->
+  
+  <div class="vendor-products">
+    <h2 class="products">Products</h2>
+    <%= render "shared/products_vendor", :products => @products, :taxon => @taxon %>
+  </div><!-- END div.vendor-products -->
 </div>
 
 

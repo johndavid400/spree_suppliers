@@ -1,7 +1,7 @@
 <%= render :partial => 'admin/suppliers/supplier_tabs', :locals => {:current => "Supplier Details"} %>
 
 <% form_for @supplier, :url => object_url, :html => { :method => :put, :multipart => true } do |f| %>
-  <%= render :partial => "edit_form", :locals => { :f => f } %>
+  <%= render :partial => "form", :locals => { :f => f } %>
 
   <table id="hours">
     <%= f.fields_for @supplier.hours.new do |f| %>

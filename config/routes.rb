@@ -1,15 +1,8 @@
-STATE_CONSTRAINTS = /AL/i
-
 Rails.application.routes.draw do
   resources :suppliers
-  resources :cities
   resources :messages
   resources :deliveries
-  resources :ratings_and_reviews
-  resources :ratings
-  
-  match '/:state/:supplier/:id', :controller => 'products', :action => 'show', :constraints => { :state => STATE_CONSTRAINTS }, :as => :pretty_product
-    
+
   namespace :admin do
 
     resources :suppliers do

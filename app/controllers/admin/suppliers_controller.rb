@@ -6,8 +6,6 @@ class Admin::SuppliersController < Admin::BaseController
 
   def new
     @supplier = Supplier.new()
-    @city = City.find_by_name("Birmingham")
-    @state = State.find_by_name("Alabama")
     @status = true
   end
 
@@ -180,8 +178,10 @@ class Admin::SuppliersController < Admin::BaseController
   private
 
   def load_data
-    default_country = Country.find_by_name("United States")
-    @states = default_country.states.sort
+    if !Country.first.nil?
+      default_country = Country.find_by_name("United States")
+      @states = default_country.states.sort
+    end
     @product = Product.find_by_permalink(params[:product_id])
   end
   

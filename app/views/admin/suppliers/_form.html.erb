@@ -25,11 +25,7 @@
   </tr>
   <tr>
     <td valign="top">State:</td>
-    <td><%= f.collection_select :state_id, State.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
-  </tr>
-  <tr>
-    <td valign="top">Market:</td>
-    <td><%= f.collection_select :city_id, City.find(:all, :order => 'name ASC'), :id, :name, :include_blank => true %></td>
+    <td><%= f.select :state_id, options_from_collection_for_select(State.all, "id", "name") %></td>
   </tr>
   <tr>
     <td valign="top">Zip-code:</td>
@@ -58,9 +54,6 @@
   <tr>
     <td valign="top">Products Sold:</td>
     <td><%= f.text_area :products_sold %></td>
-  </tr>
-  <tr>
-    <td><%= f.hidden_field :state_id, :value => @state.id %></td>
   </tr>
 </table>
 

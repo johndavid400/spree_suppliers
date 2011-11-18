@@ -1,6 +1,6 @@
 class Supplier < ActiveRecord::Base
   validates :title, :presence => true
-  scope :current_city, lambda {|id| where("city_id", id)}
+#  scope :current_city, lambda {|id| where("city_id", id)}
   acts_as_gmappable :check_process => false
   acts_as_url :title, :url_attribute => :slug, :scope => :state_id
 
@@ -18,11 +18,11 @@ class Supplier < ActiveRecord::Base
   end
 
   belongs_to :state
-  belongs_to :city
+#  belongs_to :city
   belongs_to :user
   has_many :products
-  has_many :comments
-  has_many :articles
+#  has_many :comments
+#  has_many :articles
   has_many :messages
   has_many :hours
   has_many :pickups
@@ -33,5 +33,4 @@ class Supplier < ActiveRecord::Base
   has_and_belongs_to_many :taxons
   has_and_belongs_to_many :shipping_methods
   has_many :deliveries
-  has_many :ratings
 end
