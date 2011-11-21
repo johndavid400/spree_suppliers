@@ -3,7 +3,7 @@ class CreateDeliveries < ActiveRecord::Migration
     create_table :deliveries do |t|
       t.integer :supplier_id
       t.integer :order_id
-      t.boolean :shipped
+      t.boolean :pick_up
 
       t.timestamps
     end
