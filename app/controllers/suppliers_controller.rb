@@ -1,5 +1,6 @@
 class SuppliersController < Spree::BaseController
   helper :products
+  helper :dragonfly
   respond_to :html
 
   def index
