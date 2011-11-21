@@ -1,4 +1,4 @@
-module ApplicationHelper
+module DragonflyHelper
   def dragonfly_app
     Dragonfly[:images]
   end
