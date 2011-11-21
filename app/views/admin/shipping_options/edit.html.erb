@@ -32,5 +32,7 @@
   <%= select_tag "shipping_options", options_from_collection_for_select(@shipping_methods, "id", "name") %>
   <%= hidden_field_tag("supplier_id", @supplier.id) %>
   <%= submit_tag "add" %>
+  <p />
+  <%= link_to 'Create new shipping method', new_admin_shipping_method_path %>
 
 <% end %>
