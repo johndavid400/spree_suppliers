@@ -7,7 +7,7 @@ class Admin::SupplierTaxonsController < Admin::BaseController
   def selected
     @supplier = load_supplier
     @taxons = @supplier.taxons
-    @options = Taxon.find_by_name("Vendors").children
+    @options = Taxon.all
     respond_with(:admin, @taxons)
   end
 

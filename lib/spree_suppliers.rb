@@ -122,7 +122,7 @@ module SpreeSuppliers
         def load
           @suppliers = Supplier.find(:all, :order => "name")
           if !Taxon.find_by_name("Products").nil?
-            @options = Taxon.find_by_name("Products").children
+            @options = Taxon.all
           end
         end
 
