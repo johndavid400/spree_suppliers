@@ -1,5 +1,6 @@
 class Admin::SuppliersController < Admin::BaseController
   resource_controller
+  helper :dragonfly
   before_filter :load_edit, :only => [:edit]
   before_filter :load_data, :only => [:selected, :available, :remove, :new, :edit, :select]
   respond_to :html, :js
