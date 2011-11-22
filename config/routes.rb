@@ -1,3 +1,4 @@
+STATE_CONSTRAINTS = /AL/i
 Rails.application.routes.draw do
   resources :suppliers
   resources :messages
@@ -44,4 +45,7 @@ Rails.application.routes.draw do
 
     resources :vendor_overview
   end
+
+  match '/:state/:id', :controller => 'suppliers', :action => 'show', :constraints => { :state => STATE_CONSTRAINTS }, :as => :pretty_supplier
+
 end
