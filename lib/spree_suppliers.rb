@@ -236,7 +236,7 @@ module SpreeSuppliers
             end
             invoice.update_attributes(:invoice_total => item_total)
             @invoice = invoice
-            SupplierMailer.invoice_email(@invoice).deliver
+            #SupplierMailer.invoice_email(@invoice).deliver
           end
         end
 
