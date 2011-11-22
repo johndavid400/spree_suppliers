@@ -9,6 +9,7 @@ you must first have a running rails app:
   cd spree_suppliers_test
 
 You must also have a running Spree store:
+  Add to Gemfile:
   gem 'rails', '3.0.9'
   gem 'spree', '0.60.3'
 
@@ -21,7 +22,7 @@ then run:
 
 To install the spree_suppliers extension:
 Add to Gemfile:
-  gem 'spree_supplier'
+  gem 'spree_supplier', :git => 'git://github.com/johndavid400/spree_suppliers.git'
 
 run the following:
   bundle install
