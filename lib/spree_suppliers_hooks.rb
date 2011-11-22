@@ -25,6 +25,10 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
     %(<%= tab(:pickups) %>)
   end
 
+  insert_after :admin_inside_head do
+    %(<%= javascript_include_tag 'jquery-ui.multidatespicker.js' %>)
+  end
+
   insert_after :admin_products_index_rows do
     %(<td><%= product.count_on_hand %></td>)
   end
