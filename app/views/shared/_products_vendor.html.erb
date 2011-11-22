@@ -22,8 +22,8 @@
       <% if Spree::Config[:show_zero_stock_products] || product.has_stock? %>
         <li id="product_<%= product.id %>">
           <%= hook :products_list_item, {:product => product} do %>
-            <%= link_to small_image(product), pretty_product_path(product, :state => product.supplier.state.abbr, :supplier => product.supplier.slug) %>
-            <%= link_to raw(product.name + "<span class='vendor'>#{product.supplier.title}</span> <span class='price selling'>#{product_price(product)}</span>"), pretty_product_path(product, :state => product.supplier.state.abbr, :supplier => product.supplier.slug), :class => 'info' %>
+            <%= link_to small_image(product), product_path(product) %>
+            <%= link_to raw(product.name + "<span class='vendor'>#{product.supplier.title}</span> <span class='price selling'>#{product_price(product)}</span>"), product_path(product), :class => 'info' %>
           <% end %>
         </li>
       <% end %>

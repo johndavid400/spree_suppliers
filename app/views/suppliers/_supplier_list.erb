@@ -5,7 +5,7 @@
 		
     <div class="article-content">
       <% if supplier.title %>
-        <h4><%= link_to supplier.title, pretty_supplier_path(supplier.slug, :state => supplier.state.abbr) %> </h4>
+        <h4><%= link_to supplier.title, supplier_path(supplier) %> </h4>
       <% else %>
         <h4><%= link_to supplier.name, supplier_path(supplier) %> </h4>
       <% end %>
