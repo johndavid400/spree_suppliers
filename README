@@ -22,7 +22,7 @@ then run:
 
 To install the spree_suppliers extension:
 Add to Gemfile:
-  gem 'spree_supplier', :git => 'git://github.com/johndavid400/spree_suppliers.git'
+  gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
 
 run the following:
   bundle install
