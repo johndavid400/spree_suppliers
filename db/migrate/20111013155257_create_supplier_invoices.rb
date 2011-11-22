@@ -3,7 +3,8 @@ class CreateSupplierInvoices < ActiveRecord::Migration
     create_table :supplier_invoices do |t|
       t.integer :order_id
       t.integer :item_count
-      t.string :invoice_total
+      t.integer :supplier_id
+      t.decimal :invoice_total, :precision => 8, :scale => 2, :default => 0.0, :null => false
 
       t.timestamps
     end

@@ -9,6 +9,7 @@ class CreateHours < ActiveRecord::Migration
       t.string :saturday
       t.string :sunday
       t.integer :supplier_id
+      t.integer :pickup_location_id
 
       t.timestamps
     end

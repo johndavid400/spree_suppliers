@@ -6,6 +6,7 @@ class CreateItems < ActiveRecord::Migration
       t.integer :pickup_id
       t.integer :quantity
       t.integer :supplier_invoice_id
+      t.integer :line_item_id
 
       t.timestamps
     end

@@ -4,6 +4,8 @@ class CreateDeliveries < ActiveRecord::Migration
       t.integer :supplier_id
       t.integer :order_id
       t.boolean :pick_up
+      t.integer :shipping_method_id
+      t.integer :pickup_id
 
       t.timestamps
     end
