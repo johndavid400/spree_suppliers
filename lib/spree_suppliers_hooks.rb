@@ -3,14 +3,6 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
     %(<%= tab(:suppliers) %>)
   end
 
-    remove :admin_tabs do
-      %(<%= tab(:overview) %>)
-      %(<%= tab(:reports) %>)
-      %(<%= tab(:configuration) %>)
-      %(<%= tab(:users) %>)
-      %(<%= tab(:promotions) %>)
-    end
-
   # insert_after :admin_order_tabs do
   #   %(<%= tab(:order_line_items) %>)
   # end
