@@ -102,14 +102,14 @@ module SpreeSuppliers
           end
 
           @orders = Order.metasearch(params[:search]).paginate(
-                                                               :include  => [:user, :shipments, :payments],
-                                                               :per_page => Spree::Config[:orders_per_page],
-                                                               :page     => params[:page])
+            :include  => [:user, :shipments, :payments],
+            :per_page => Spree::Config[:orders_per_page],
+            :page     => params[:page])
 
-          if current_user.has_role?("vendor")
-            @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == current_user.supplier.id}.size > 0}
-          end
-          respond_with(@orders)
+            if current_user.has_role?("vendor")
+              @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == current_user.supplier.id}.size > 0}
+            end
+            respond_with(@orders)
         end
       end
 
@@ -184,6 +184,33 @@ module SpreeSuppliers
         end
 
       end
+
+      UserSessionsController.class_eval do
+        def create
+          authenticate_user!
+
+          if user_signed_in?
+            if current_user.has_role?("vendor")
+              redirect_to admin_orders_path
+            else
+              respond_to do |format|
+                format.html {
+                  flash[:notice] = I18n.t("logged_in_succesfully")
+                  redirect_back_or_default(products_path)
+                }
+                format.js {
+                  user = resource.record
+                  render :json => {:ship_address => user.ship_address, :bill_address => user.bill_address}.to_json
+                }
+              end
+            end
+          else
+            flash[:error] = I18n.t("devise.failure.invalid")
+            render :new
+          end
+        end
+      end
+
 
       #### Modify the Models with changes that are only associated with the Suppliers extension
 
@@ -279,7 +306,7 @@ module SpreeSuppliers
         end
       end
 
-###      UGLY HACK 
+      ###      UGLY HACK 
       Admin::ProductsController.class_eval do
         def authorize_admin
           authorize! :admin, Product
@@ -365,7 +392,7 @@ module SpreeSuppliers
         end
       end
 
-###      END UGLY HACK
+      ###      END UGLY HACK
     end
 
     config.to_prepare &method(:activate).to_proc

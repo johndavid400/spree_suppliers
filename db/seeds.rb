@@ -8,3 +8,7 @@ puts "Create Taxonomy"
 
 t = Taxonomy.create :name => "Products"
 
+puts "Create Vendor Role"
+
+r = Role.create :name => "vendor"
+
