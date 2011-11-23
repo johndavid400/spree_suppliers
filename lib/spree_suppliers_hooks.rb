@@ -3,7 +3,6 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
     %(<%= tab(:suppliers) %>)
   end
 
-  if current_user.has_role?("vendor")
     remove :admin_tabs do
       %(<%= tab(:overview) %>)
       %(<%= tab(:reports) %>)
@@ -11,7 +10,6 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
       %(<%= tab(:users) %>)
       %(<%= tab(:promotions) %>)
     end
-  end
 
   # insert_after :admin_order_tabs do
   #   %(<%= tab(:order_line_items) %>)
