@@ -3,6 +3,12 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
     %(<%= tab(:suppliers) %>)
   end
 
+  insert_after :admin_tabs do
+    if current_user.has_role?("admin")
+      %(<%= tab(:suppliers) %>)
+    end
+  end
+
   # insert_after :admin_order_tabs do
   #   %(<%= tab(:order_line_items) %>)
   # end
