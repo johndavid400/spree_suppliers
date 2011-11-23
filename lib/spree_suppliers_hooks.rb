@@ -26,7 +26,7 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
   end
 
   insert_after :admin_inside_head do
-    %(<%= javascript_include_tag 'jquery-ui.multidatespicker.js' %>)
+    %(<%= javascript_include_tag 'jquery.ui.core', 'jquery.ui.datepicker.js', 'jquery-ui.multidatespicker.js' %>)
   end
 
   insert_after :admin_products_index_rows do
