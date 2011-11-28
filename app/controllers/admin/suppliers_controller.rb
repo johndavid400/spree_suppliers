@@ -5,6 +5,14 @@ class Admin::SuppliersController < Admin::BaseController
   before_filter :load_data, :only => [:selected, :available, :remove, :new, :edit, :select]
   respond_to :html, :js
 
+  def index
+    if current_user.has_role("admin")
+      @suppliers = Supplier.all
+    else
+      @supplier = current_user.supplier 
+    end
+  end
+
   def new
     @supplier = Supplier.new()
     @status = true

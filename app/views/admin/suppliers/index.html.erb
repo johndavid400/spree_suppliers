@@ -4,6 +4,7 @@
   <%= t("suppliers") %>
 </h1>
 
+<% if current_user.has_role?("admin") %>
 <div class='toolbar'>
   <ul class='actions'>
     <li id="new_product_link">
@@ -55,5 +56,45 @@
   </tbody>
 </table>
 
+<% else %>
+<table class="index" width="545">
+  <thead>
+    <tr>
+      <th>
+        <%= t("supplier_name") %>
+      </th>
+      <th>
+        <%= t("notes") %>
+      </th>
+      <th>
+        Actions
+      </th>
+      <th>
+        Featured
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>
+          <%= link_to @supplier.title, edit_admin_supplier_path(@supplier) %>
+        </td>
+        <td>
+          <%= truncate(@supplier.notes, :length => 50) %>
+        </td>
+        <td class='actions'>
+          <%= link_to_edit @supplier, :class => 'edit' %>
+        </td>
+        <td>
+          <% if supplier.featured %>
+            Yes
+          <% else %>
+            No
+          <% end %>
+        </td>
+    </tr>
+  </tbody>
+</table>
+<% end %>
 
 <%= link_to t("new_supplier"), new_object_url %>
