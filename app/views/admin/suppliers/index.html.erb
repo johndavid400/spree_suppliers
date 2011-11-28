@@ -97,4 +97,6 @@
 </table>
 <% end %>
 
-<%= link_to t("new_supplier"), new_object_url %>
+<% if current_user.has_role?("admin") %>
+  <%= link_to t("new_supplier"), new_object_url %>
+<% end %>
