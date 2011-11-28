@@ -1,0 +1,107 @@
+
+<% if current_user.has_role?("admin") %>
+  <div class='toolbar order-links'>
+    <%= button_link_to t("new_order"), new_admin_order_url, :icon => 'add', :id => 'admin_new_order' %>
+  </div>
+<% end %>
+
+<%= render :partial => 'admin/shared/order_sub_menu' %>
+
+<h1><%= t("listing_orders") %></h1>
+
+<table class="index" id='listing_orders'>
+  <thead>
+    <tr>
+      <%= hook :admin_orders_index_headers do %>
+        <% if @show_only_completed %>
+          <th><%= sort_link @search, :completed_at, t("activerecord.attributes.order.completed_at") %></th>
+        <% else %>
+          <th><%= sort_link @search, :created_at,   t("order_date") %></th>
+        <% end %>
+        <th><%= sort_link @search, :number,         t("order_number") %></th>
+        <th><%= sort_link @search, :state,          t("status") %></th>
+        <th><%= sort_link @search, :payment_state,  t("payment_state") %></th>
+        <th><%= sort_link @search, :shipment_state, t("shipment_state") %></th>
+        <th><%= sort_link @search, :email,          t("customer") %></th>
+        <th><%= sort_link @search, :total,          t("total") %></th>
+      <% end %>
+      <th>
+        <%= hook :admin_orders_index_header_actions %>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @orders.each do |order| %>
+    <tr>
+      <%- locals = {:order => order} %>
+      <%= hook :admin_orders_index_rows, locals do %>
+        <td><%= (@show_only_completed ? order.completed_at : order.created_at).to_date %></td>
+        <td><%= link_to order.number, admin_order_path(order) %></td>
+        <td><%= t("order_state.#{order.state.downcase}") %></td>
+        <td><%= link_to t("payment_states.#{order.payment_state}"), admin_order_payments_path(order) if order.payment_state %></td>
+        <td><%= link_to t("shipment_states.#{order.shipment_state}"), admin_order_shipments_path(order) if order.shipment_state %></td>
+        <td><%= order.email %></td>
+        <td><%= number_to_currency order.total %></td>
+      <% end %>
+      <td class='actions'>
+        <%= hook :admin_orders_index_row_actions, locals do %>
+          <%= link_to_edit_url edit_admin_order_path(order), :title => "admin_edit_#{dom_id(order)}" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate(@orders, :previous_label => "&#171; #{t('previous')}", :next_label => "#{t('next')} &#187;") %>
+
+
+<% content_for :sidebar do %>
+<div class="box">
+  <h3><%= t(:search) %></h3>
+  <%= form_for [:admin, @search] do |f| %>
+    <%- locals = {:f => f} %>
+    <%= hook :admin_orders_index_search, locals do %>
+      <label><%= t("date_range") %></label><br />
+      <div class="yui-g date-range-filter">
+        <div class="yui-u sub-field first">
+          <%= f.spree_date_picker :created_at_greater_than %><br />
+          <label class="sub"><%= t("start") %></label>
+        </div>
+        <div class="yui-u sub-field">
+          <%= f.spree_date_picker :created_at_less_than %><br />
+          <label><%= t("stop") %></label>
+        </div>
+      </div>
+
+      <p><label><%= t("status") %></label><br />
+      <%= f.select :state_equals, Order.state_machines[:state].states.collect {|s| [t("order_state.#{s.name}"), s.value]}, {:include_blank => true} %></p>
+
+      <p><label><%= t 'order_number' %></label><br />
+      <%= f.text_field :number_like, :size=>25 %></p>
+
+      <p>
+        <label><%= t 'email' %></label><br />
+        <%= f.text_field :email_like, :size=>25 %>
+      </p>
+      <p>
+      <label><%= t 'first_name_begins_with' %></label><br />
+          <%= f.text_field :bill_address_firstname_starts_with, :size=>25 %>
+      </p>
+      <p>
+        <label><%= t 'last_name_begins_with' %></label><br />
+        <%= f.text_field :bill_address_lastname_starts_with, :size=>25 %>
+      </p>
+      <p>
+        <%= f.check_box :completed_at_is_not_null, {:checked => @show_only_completed}, "1", "" %>
+        <label>
+          <%= t("show_only_complete_orders") %>
+        </label>
+      </p>
+    <% end %>
+    <%= hook :admin_orders_index_search_buttons, locals do %>
+      <p><%= button t("search") %></p>
+    <% end %>
+  <% end %>
+</div>
+<% end %>
