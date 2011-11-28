@@ -314,8 +314,15 @@ module SpreeSuppliers
         end
       end
 
+      Admin::PromotionsController.class_eval do
+        def authorize_admin
+          authorize! :admin, Promotion
+          authorize! params[:action].to_sym, Promotion
+        end
+      end
+
       Admin::VariantsController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, Variant
           authorize! params[:action].to_sym, Variant
         end
