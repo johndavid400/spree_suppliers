@@ -7,7 +7,6 @@
   <li><b>Address1:</b> <%= supplier.address1 %></li>
   <li><b>Town:</b> <%= supplier.town %></li>
   <li><b>State:</b><%= State.find_by_id(supplier.state).name %></li>
-  <li><b>Market:</b><%= City.find_by_id(supplier.city_id).name %></li>
   <li><b>Zip-code:</b><%= supplier.zip_code %></li>
   <li><b>Fax:</b><%= supplier.fax %></li>
   <li><b>Email:</b><%= supplier.email %></li>
