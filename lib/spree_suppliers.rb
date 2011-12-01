@@ -309,6 +309,42 @@ module SpreeSuppliers
       Taxon.class_eval do
         has_and_belongs_to_many :suppliers
       end
+      
+      Admin::UsersController.class_eval do
+        def new
+          @user = User.new
+        end
+
+        def create
+          @user.create(params[:user])
+          if @user.save
+            @user.supplier_id = params[:user][:supplier_id]
+            @user.save
+            flash[:notice] = "User updated successfully."
+            redirect_to :back
+          else
+            flash[:error] = "There was an error updating the user."
+            redirect_to :back
+          end
+        end
+
+        def edit
+          @user = User.find(params[:id])
+        end
+
+        def update
+          @user.update_attributes(params[:user])
+          if @user.save
+            @user.supplier_id = params[:user][:supplier_id]
+            @user.save
+            flash[:notice] = "User updated successfully."
+            redirect_to :back
+          else
+            flash[:error] = "There was an error updating the user."
+            redirect_to :back
+          end
+        end
+      end
 
       ###      UGLY HACK 
       Admin::ProductsController.class_eval do
