@@ -306,6 +306,10 @@ module SpreeSuppliers
         end
       end
 
+      Taxon.class_eval do
+        has_and_belongs_to_many :suppliers
+      end
+
       ###      UGLY HACK 
       Admin::ProductsController.class_eval do
         def authorize_admin
