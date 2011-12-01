@@ -18,11 +18,8 @@ class Supplier < ActiveRecord::Base
   end
 
   belongs_to :state
-#  belongs_to :city
-  belongs_to :user
+  has_one :user
   has_many :products
-#  has_many :comments
-#  has_many :articles
   has_many :messages
   has_many :hours
   has_many :pickups

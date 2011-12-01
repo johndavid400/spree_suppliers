@@ -15,13 +15,11 @@ module SpreeSuppliers
       # Append the checkout controller
       #
       CheckoutController.class_eval do
-
         def edit
           @order_products = @order.products
           @suppliers = @order_products.collect{|item| item.supplier_id}.uniq
           @delivery = Delivery.new
         end
-
         # Updates the order and advances to the next state (when possible.)
         def update
           @order_products = @order.products
@@ -34,7 +32,6 @@ module SpreeSuppliers
               respond_with(@order, :location => checkout_state_path(@order.state))
               return
             end
-
             if @order.state == "payment" 
               @suppliers.each do |s|
                 delivery = @order.deliveries.find_or_create_by_supplier_id(s)
@@ -47,10 +44,8 @@ module SpreeSuppliers
                 end
               end
             end
-
             if @order.state == "complete" || @order.completed?
               # This is where the SupplierInvoices are generated
-              #generate_invoices
               # Back to the normal checkout process
               flash[:notice] = I18n.t(:order_processed_successfully)
               flash[:commerce_tracking] = "nothing special"
@@ -62,7 +57,6 @@ module SpreeSuppliers
             respond_with(@order) { |format| format.html { render :edit } }
           end
         end
-
       end
 
       # Append the admin orders controller
@@ -79,33 +73,26 @@ module SpreeSuppliers
           end
           respond_with(@order)
         end
-
         def index
           params[:search] ||= {}
           params[:search][:completed_at_is_not_null] ||= '1' if Spree::Config[:show_only_complete_orders_by_default]
           @show_only_completed = params[:search][:completed_at_is_not_null].present?
           params[:search][:meta_sort] ||= @show_only_completed ? 'completed_at.desc' : 'created_at.desc'
-
           @search = Order.metasearch(params[:search])
-
           if !params[:search][:created_at_greater_than].blank?
             params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
           end
-
           if !params[:search][:created_at_less_than].blank?
             params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
           end
-
           if @show_only_completed
             params[:search][:completed_at_greater_than] = params[:search].delete(:created_at_greater_than)
             params[:search][:completed_at_less_than] = params[:search].delete(:created_at_less_than)
           end
-
           @orders = Order.metasearch(params[:search]).paginate(
             :include  => [:user, :shipments, :payments],
             :per_page => Spree::Config[:orders_per_page],
             :page     => params[:page])
-
             if current_user.has_role?("vendor")
               @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == current_user.supplier.id}.size > 0}
             end
@@ -119,47 +106,39 @@ module SpreeSuppliers
         before_filter :load
         before_filter :load_index, :only => [:index]
         before_filter :edit_before, :only => [:edit]
+        create.before :create_before
+        create.fails :reset
+        update.before :update_taxons
         def load
           @suppliers = Supplier.find(:all, :order => "name")
           if !Taxon.find_by_name("Products").nil?
             @options = Taxon.all
           end
         end
-
         def load_index
           if current_user.roles.member?(Role.find_by_name("vendor"))
             @collection.select! {|c| c.supplier_id == current_user.supplier.id}
           end
         end
-
         #indicate that we want to create a new product
         def new
           @object = Product.new()
           @status = true
         end
-
-        def edit_before 
+        def edit_before
           @status = false
         end
-
         def taxon_push object
           object.taxons = []
           Taxon.all.map {|m| object.taxons.push(Taxon.find_by_id(params[m.name])) if params.member?(m.name)}
           return object
         end
-
-        def reset 
+        def reset
           @status = true
         end
-
-        create.before :create_before
-        create.fails :reset
-        update.before :update_taxons
-
         def update_taxons
           @object = taxon_push(@object)
         end
-
         def create_before
           if current_user.has_role?("vendor")
             @object = current_user.supplier.products.build(params[:product])
@@ -168,27 +147,23 @@ module SpreeSuppliers
           end
           @object = taxon_push(@object)
         end
-
         def publish
           p = Product.find_by_name(params[:id])
           p.available_on = Date.today
           p.save
           redirect_to edit_admin_product_path(p)
         end
-
         def unpublish 
           p = Product.find_by_name(params[:id])
           p.available_on = nil
           p.save
           redirect_to edit_admin_product_path(p)
         end
-
       end
 
       UserSessionsController.class_eval do
         def create
           authenticate_user!
-
           if user_signed_in?
             if current_user.has_role?("vendor")
               redirect_to admin_orders_path
@@ -211,9 +186,7 @@ module SpreeSuppliers
         end
       end
 
-
       #### Modify the Models with changes that are only associated with the Suppliers extension
-
       # Append the product model
       #
       Product.class_eval do
@@ -241,7 +214,6 @@ module SpreeSuppliers
       Order.class_eval do
         has_many :supplier_invoices
         has_many :deliveries
-
         def generate_invoices(order)
           @order = order
           @order_products = @order.line_items
@@ -266,7 +238,6 @@ module SpreeSuppliers
             #SupplierMailer.invoice_email(@invoice).deliver
           end
         end
-
         def finalize!
           update_attribute(:completed_at, Time.now)
           self.out_of_stock_items = InventoryUnit.assign_opening_inventory(self)
@@ -283,7 +254,6 @@ module SpreeSuppliers
             :user_id        => (User.respond_to?(:current) && User.current.try(:id)) || self.user_id
           })
         end
-
       end
 
       # Append the state model
@@ -295,13 +265,11 @@ module SpreeSuppliers
       # Append the user model
       #
       User.class_eval do
-        has_one :supplier
-
+        belongs_to :supplier
         def user_address
           "#{self.bill_address.address1}, #{self.bill_address.city}, #{self.bill_address.state.country.name}"
         end
-
-        def vendor? 
+        def vendor?
           self.roles.member?(Role.find_by_name("vendor"))
         end
       end
@@ -309,12 +277,11 @@ module SpreeSuppliers
       Taxon.class_eval do
         has_and_belongs_to_many :suppliers
       end
-      
+
       Admin::UsersController.class_eval do
         def new
           @user = User.new
         end
-
         def create
           @user.create(params[:user])
           if @user.save
@@ -327,11 +294,9 @@ module SpreeSuppliers
             redirect_to :back
           end
         end
-
         def edit
           @user = User.find(params[:id])
         end
-
         def update
           @user.update_attributes(params[:user])
           if @user.save
@@ -369,56 +334,56 @@ module SpreeSuppliers
       end
 
       Admin::OptionTypesController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, OptionType
           authorize! params[:action].to_sym, OptionType
         end
       end
 
       Admin::PropertiesController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin , Property
           authorize! params[:action].to_sym, Property
         end
       end
 
       Admin::PrototypesController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, Prototype
           authorize! params[:action].to_sym, Prototype
         end
       end
 
       Admin::ProductGroupsController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, ProductGroup
           authorize! params[:action].to_sym, ProductGroup
         end
       end
 
       Admin::ProductPropertiesController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, Product
           authorize! params[:action].to_sym, Product
         end
       end
 
       Admin::TaxonsController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, Taxon
           authorize! params[:action].to_sym, Taxon
         end
       end
 
       Admin::PickupsController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, Pickup
           authorize! params[:action].to_sym, Pickup
         end
       end
 
       Admin::PickupLocationsController.class_eval do
-        def authorize_admin 
+        def authorize_admin
           authorize! :admin, PickupLocation
           authorize! params[:action].to_sym, PickupLocation
         end
@@ -430,7 +395,6 @@ module SpreeSuppliers
           authorize! params[:action].to_sym, Order
         end
       end
-
 
       Admin::SuppliersController.class_eval do
         def authorize_admin
