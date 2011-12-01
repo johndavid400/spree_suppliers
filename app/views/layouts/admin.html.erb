@@ -5,9 +5,6 @@
   <%= hook :admin_inside_head do %>
     <%= render :partial => "shared/admin_head" %>
   <% end %>
-  <% if !include_yui_editor_if_used.nil? %>
-    <%= include_yui_editor_if_used.html_safe %>
-  <% end %>
 </head>
 <body class='yui-skin-sam admin'>
 <!--[if IE 7]>
