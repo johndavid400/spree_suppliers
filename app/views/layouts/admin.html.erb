@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <%= hook :admin_inside_head do %>
+    <%= render :partial => "shared/admin_head" %>
+  <% end %>
+  <% if !include_yui_editor_if_used.nil? %>
+    <%= include_yui_editor_if_used.html_safe %>
+  <% end %>
+</head>
+<body class='yui-skin-sam admin'>
+<!--[if IE 7]>
+<div id='IE7'>
+<![endif]-->
+<div id='wrapper'>
+
+  <div id="header">
+
+    <%= hook :admin_login_navigation_bar %>
+
+    <a href="<%= admin_path %>"><%= image_tag Spree::Config[:admin_interface_logo], :id => 'logo' %></a>
+
+    <div id="progress"><%= image_tag 'progress.gif' %> <%= t('loading') %>...</div>
+  </div>
+
+  <div id="admin-menu">
+    <ul>
+      <% if current_user.roles.member?(Role.find_by_name("admin")) %>
+        <%= hook :admin_tabs do %>
+          <%= render 'admin/shared/tabs' %>
+        <% end %>
+      <% elsif current_user.roles.member?(Role.find_by_name("vendor")) %>
+        <%= tab :products , :option_types, :properties, :prototypes, :variants, :product_properties, :product_groups, :taxons %>
+        <%= tab :pickups %>
+        <%= tab :orders %>
+        <li><%= link_to "Profile", admin_supplier_path(current_user.supplier) %></li>
+      <% end %>
+    </ul>
+    <br class="clear" />
+  </div>
+
+  <div id="sub-menu">
+    <%= yield :sub_menu %>
+    <br class="clear" />
+  </div>
+
+  <div class="<%= 'with-sidebar ' if content_for?(:sidebar) %> clear tile_bg" id="content">
+
+
+    <% if flash[:error] %>
+    <div class="flash error"><%= flash[:error] %></div>
+    <% end %>
+    <% if self.notice %>
+    <div class="flash notice"><%= self.notice %></div>
+    <% end %>
+
+
+    <%= yield %>
+
+    <% if content_for?(:sidebar) %>
+      <br class='clear' />
+      <div id="sidebar">
+          <%= yield :sidebar %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div id="footer">
+    <p><%= t("icons_by") %> <a href='http://pinvoke.com'>pInvoke</a></p>
+  </div>
+
+
+</div>
+<!--[if IE]>
+</div>
+<![endif]-->
+
+<%= hook :admin_footer_scripts do %>
+  <%= javascript_include_tag 'admin/unobtrusive_handlers' %>
+<% end %>
+</body>
+</html>
