@@ -31,15 +31,17 @@ This extension provides functionality to use multiple suppliers/vendors, each se
 - rake db:seed
 - rake db:admin:create
 
---
+__
 
-### Alternatively, ###  you can install the spree_suppliers extension from github instead of rubygems:
+### Alternatively,
+you can install the spree_suppliers extension from github instead of rubygems:
 
-Add to Gemfile:
 
--gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
+#### Add to Gemfile:
 
-run the following:
+- gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
+
+#### run the following:
 
 - bundle install
 - rake spree_suppliers:install
@@ -67,7 +69,8 @@ Go through checkout process normally, then check orders page on the admin panel 
 There is a mailer in place that will send each individual supplier an email anytime a purchase is made from them. It will not show them the entire order, only the products purchased from them. The mailer is disabled (commented out) as there is no email smtp information yet. Once you fill this in, you can re-enable the mailer to send out emails.
 
 - To change smtp settings for supplier invoice: config/initializers/supplier_invoice_mailer.rb
-- to enable supplier invoice mailer, uncomment: lib/spree_suppliers.rb  line:238
+- to enable supplier invoice mailer, uncomment line:238:
+  lib/spree_suppliers.rb
 
 
 
