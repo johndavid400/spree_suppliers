@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_suppliers'
-  s.version     = '0.60.3'
+  s.version     = '0.0.1'
   s.summary     = 'Add suppliers to products.'
   s.description = 'This gem adds multiple supplier/vendor support to spree by allowing mutliple vendors to be created and managed in the admin panel, so that each vendor can have a mini-store listing only their products. The default spree feel and operation of a combined products index showing all available products in the store is left intact, so customers can buy items from different vendors with a single checkout process. This extension can be used to simply add multiple supplier support to show off your vendors, or it can be used as a 3rd party gateway to link customers directly to suppliers.'
   s.required_ruby_version = '>= 1.9.2'

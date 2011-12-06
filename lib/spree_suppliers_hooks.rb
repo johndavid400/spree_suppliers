@@ -26,7 +26,7 @@ class SuppliersHooks < Spree::ThemeSupport::HookListener
   end
 
   insert_after :admin_inside_head do
-    %(<%= javascript_include_tag 'jquery.ui.datepicker.js', 'jquery-ui.multidatespicker.js' %>)
+    %(<%= javascript_include_tag 'jquery.ui.datepicker.js', 'jquery-ui.multidatespicker.js', 'gmaps4rails.base.js', 'gmaps4rails.googlemaps.js' %>)
   end
 
   insert_after :admin_inside_head do
