@@ -27,17 +27,12 @@ This extension provides functionality to use multiple suppliers/vendors, each se
 
 #### then run:
 
-  bundle install
-
-  rake spree:install
-
-  rake spree_suppliers:install
-
-  rake db:migrate
-
-  rake db:seed
-
-  rake db:admin:create
+- bundle install
+- rake spree:install
+- rake spree_suppliers:install
+- rake db:migrate
+- rake db:seed
+- rake db:admin:create
 
 ----------------------------
 ### Alternatively, ###  you can install the spree_suppliers extension from github instead of rubygems:
@@ -58,6 +53,7 @@ rake db:migrate
 ## Checkout Process
 
 Before being able to check out with the new changes, go to /admin and do the following things:
+
 1. create a vendor (with valid address)
 2. create a shipping method (make sure to select the correct zone for your area)
 3. create a payment method (use "check" to test with)
