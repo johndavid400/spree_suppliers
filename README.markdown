@@ -1,4 +1,4 @@
-<h2>Spree Suppliers Extension</h2>
+# Spree Suppliers Extension
 
 This is an extension to run on top of spree 0.60.3 rails ecommerce engine.
 
@@ -7,36 +7,52 @@ This extension provides functionality to use multiple suppliers/vendors, each se
 ----------------------------
 ## Installation: 
 
-you must first have a running rails app:
+#### you must first have a running rails app:
+
   rails new spree_suppliers_test
+
   cd spree_suppliers_test
 
-You must also have a running Spree store:
+#### You must also have a running Spree store:
+
   Add to Gemfile:
 
   gem 'rails', '3.0.9'
+
   gem 'sqlite3'
+
   gem 'spree', '0.60.3'
+
   gem 'spree_suppliers', '0.60.3'
 
-then run: 
+#### then run:
+
   bundle install
+
   rake spree:install
+
   rake spree_suppliers:install
+
   rake db:migrate
+
   rake db:seed
+
   rake db:admin:create
 
 ----------------------------
-### Alternatively, you can install the spree_suppliers extension from github instead of rubygems:
+### Alternatively, ###  you can install the spree_suppliers extension from github instead of rubygems:
 
 Add to Gemfile:
-  gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
+
+gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
 
 run the following:
-  bundle install
-  rake spree_suppliers:install
-  rake db:migrate
+
+bundle install
+
+rake spree_suppliers:install
+
+rake db:migrate
 
 ----------------------------
 ## Checkout Process
