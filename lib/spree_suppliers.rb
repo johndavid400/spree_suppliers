@@ -245,7 +245,7 @@ module SpreeSuppliers
           adjustments.optional.each { |adjustment| adjustment.update_attribute("locked", true) }
           # generate the invoices for each supplier
           generate_invoices(self)
-          OrderMailer.confirm_email(self).deliver
+          #OrderMailer.confirm_email(self).deliver
 
           self.state_events.create({
             :previous_state => "cart",
