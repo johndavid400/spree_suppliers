@@ -35,6 +35,7 @@ ______________________________
 
 - rails s
 - visit localhost:3000
+
 ______________________________
 
 ### Alternatively,
@@ -73,8 +74,11 @@ ______________________________
 There is a mailer in place that will send each individual supplier an email anytime a purchase is made from them. It will not show them the entire order, only the products purchased from them. The mailer is disabled (commented out) as there is no email smtp information yet. Once you fill this in, you can re-enable the mailer to send out emails.
 
 #### To change smtp settings for supplier invoice: 
+
 - config/initializers/supplier_invoice_mailer.rb
+
 #### to enable supplier invoice mailer, uncomment line:238:
+
 - lib/spree_suppliers.rb
 
 
