@@ -4,7 +4,7 @@ This is an extension to run on top of spree 0.60.3 rails ecommerce engine.
 
 This extension provides functionality to use multiple suppliers/vendors, each selling their own products, but using a unified listing view so the customer is not affected by this and only makes one transaction. On the backend, smaller sub-orders called supplier invoices are created by grouping the products in an order by each product's supplier_id. A subtotal is generated for each supplier invoice, so the spree administrator can send out invoices to each supplier.
 
---
+______________________________
 
 ## Installation:
 
@@ -13,7 +13,7 @@ This extension provides functionality to use multiple suppliers/vendors, each se
 - rails new spree_suppliers_test
 - cd spree_suppliers_test
 
-### You must also have a running Spree store:
+### Now set up your Gemfile and install:
 
 ####  Add to Gemfile:
 
@@ -31,10 +31,14 @@ This extension provides functionality to use multiple suppliers/vendors, each se
 - rake db:seed
 - rake db:admin:create
 
-__
+### That's it for installation!
+
+- rails s
+- visit localhost:3000
+______________________________
 
 ### Alternatively,
-you can install the spree_suppliers extension from github instead of rubygems:
+To get the latest updates, you can install the spree_suppliers extension from github instead of rubygems:
 
 
 #### Add to Gemfile:
@@ -47,7 +51,7 @@ you can install the spree_suppliers extension from github instead of rubygems:
 - rake spree_suppliers:install
 - rake db:migrate
 
---
+______________________________
 
 ## Checkout Process
 
@@ -62,15 +66,15 @@ Before being able to check out with the new changes, go to /admin and do the fol
 
 Go through checkout process normally, then check orders page on the admin panel to view the details of an order and all supplier invoices that are created.
 
---
+______________________________
 
 ## Supplier Invoice Mailer
 
 There is a mailer in place that will send each individual supplier an email anytime a purchase is made from them. It will not show them the entire order, only the products purchased from them. The mailer is disabled (commented out) as there is no email smtp information yet. Once you fill this in, you can re-enable the mailer to send out emails.
 
-- To change smtp settings for supplier invoice: config/initializers/supplier_invoice_mailer.rb
-- to enable supplier invoice mailer, uncomment line:238:
-  lib/spree_suppliers.rb
-
+#### To change smtp settings for supplier invoice: 
+- config/initializers/supplier_invoice_mailer.rb
+#### to enable supplier invoice mailer, uncomment line:238:
+- lib/spree_suppliers.rb
 
 
