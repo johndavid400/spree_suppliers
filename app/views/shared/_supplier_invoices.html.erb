@@ -1,0 +1,47 @@
+
+<% @invoices.each do |invoice| %>
+
+  <div class="supplier_invoice">
+    <h3><%= invoice.supplier.title %></h3>
+    <table class="index">
+      <tr>
+        <th>Product Name</th>
+        <th>Product price</th>
+        <th>Quantity</th>
+        <th>Totals</th>
+      </tr>
+
+      <% invoice.invoice_items.each do |item| %>
+        <tr bgcolor="#F9FFB9">
+          <td width="600px"><%= item.line_item.product.name %> <%= "(" + variant_options(item.line_item.variant) + ")" unless item.line_item.variant.option_values.empty? %></td>
+          <td width="150px"><%= number_to_currency(item.line_item.variant.price) %></td>
+          <td width="75px"><%= item.quantity %></td>
+          <td><%= number_to_currency(item.line_item.variant.price * item.quantity) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Order-total</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total) %></td>
+      </tr>
+      <tr>
+        <td>-(fee)</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total * @fee) %></td>
+      </tr>
+      <tr>
+        <td>Sub-total</td>
+        <td></td>
+        <td></td>
+        <td><%= number_to_currency(invoice.invoice_total * (1 - @fee)) %></td>
+      </tr>
+
+    </table>
+  </div>
+<% end %>
+
+
+
+

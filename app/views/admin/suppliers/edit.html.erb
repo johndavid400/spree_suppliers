@@ -1,0 +1,13 @@
+<%= render :partial => 'admin/suppliers/supplier_tabs', :locals => {:current => "Supplier Details"} %>
+
+<h1>Edit Supplier</h1>
+
+<%= form_for @supplier, :url => object_url, :html => { :method => :put, :multipart => true } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+
+  <p class="form-buttons">
+  <%= button t("update") %>
+  <%= t('or') %> <%= link_to t("cancel"), "#", :id => "cancel_link" %>
+  </p>
+<% end %>
+

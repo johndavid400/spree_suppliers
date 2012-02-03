@@ -1,0 +1,18 @@
+<h1>Editing Vendor</h1>
+
+<%= render :partial => 'admin/suppliers/supplier_tabs', :locals => {:current => "Taxons"} %>
+
+<%= form_tag({:controller => "supplier_taxons", :action => "update_taxons"}, :method => :post) do %>
+  <h3>Category</h3>
+  <ul>
+    <% @options.each do |o| %>
+      <%- if @supplier.taxons.select{|p| p.name == o.name}.present? %>
+        <li><%= check_box_tag o.name, o.id, true %><%= label_tag o.name %></li>
+      <% else %>
+        <li><%= check_box_tag o.name, o.id %><%= label_tag o.name %></li>
+      <% end %>
+    <% end %>
+  </ul>
+  <%= submit_tag "Update" %>
+<% end %>
+

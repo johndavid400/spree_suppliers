@@ -1,0 +1,12 @@
+<% content_for :sidebar do %>
+  <ul class="sidebar supplier-menu">
+    <%= hook :admin_supplier_tabs, {:current => current} do %>
+      <li<%== ' class="active"' if current == "Supplier Details" %>>
+        <%= link_to "Supplier Details", edit_admin_supplier_url(@supplier) %>
+      </li>
+      <li<%== ' class="active"' if current == "Taxons" %>>
+        <%= link_to t("taxons"), selected_admin_supplier_taxons_url(@supplier) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

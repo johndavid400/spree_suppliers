@@ -1,0 +1,14 @@
+<table class="basic-table">
+<h3>Company images</h3>
+  <tr>
+    <td><%= t("filename") %>:</td>
+    <td><%= f.file_field :attachment %></td>
+  </tr>
+  <tr>
+    <td><%= t("alt_text") %>:</td>
+    <td><%= f.text_field :alt, :value => "There is no image available" %></td>
+  </tr>
+  <tr>
+    <td><%= f.hidden_field :viewable_id, :value => @supplier.id %></td>
+  </tr>
+</table>

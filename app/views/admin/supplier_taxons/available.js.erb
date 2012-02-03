@@ -1,0 +1,33 @@
+<script type="text/javascript">
+  function displayRow(){
+    var row = document.getElementById("captionRow");
+    if (row.style.display == '') row.style.display = 'none';
+    else row.style.display = '';
+  }
+</script>
+<h4><%= t('available_taxons') %></h4>
+<table class="index">
+  <thead>
+    <tr>
+      <th><%= t("name") %></th>
+      <th><%= t("path") %></th>
+      <th><%= t("action") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @taxons.each do |taxon| %>
+      <tr id="<%= dom_id(taxon, :sel) %>">
+        <td><%= taxon.name %></td>
+        <td><%= taxon_path taxon %></td>
+        <td class="actions">
+          <%= link_to icon('add') + ' ' + t("select"),
+                            select_admin_supplier_taxon_path(@supplier, taxon),
+                           :remote => true, :class => 'iconlink' %>
+        </td>        
+      </tr>
+    <% end %>
+    <% if @taxons.empty? %>
+     <tr><td colspan="3"><%= t('no_match_found') %>.</td></tr>
+    <% end %>
+  </tbody>
+</table>

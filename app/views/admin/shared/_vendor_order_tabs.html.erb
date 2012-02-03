@@ -1,0 +1,39 @@
+<h1><%= t(:order) + " #{@order.number}" %></h1>
+
+<% content_for :sidebar do %>
+  <div id="order_tab_summary">
+    <h3 id="order_number"><%= "#{t(:order)} ##{@order.number} " %></h3>
+    <h5 id="order_status"><%= "#{t(:status)}: #{t("order_state.#{@order.state}")}" %></h5>
+    <h5 id="order_total"><%= "#{t(:total)}: #{number_to_currency(@order.total)}" %></h5>
+    <% if @order.completed? %>
+      <h5 id="shipment_status"><%= "#{t(:shipment)}: #{t("shipment_states.#{@order.shipment_state}")}"  %></h5>
+      <h5 id="payment_status"><%= "#{t(:payment)}: #{t("payment_states.#{@order.payment_state}")}" %></h5>
+    <% end %>
+    <br class="clear" />
+  </div>
+  <br class="clear" />
+
+  <ul class="sidebar">
+    <%= hook :admin_order_tabs, {:current => current} do %>
+      <% unless @order.completed? %>
+        <li<%== ' class="active"' if current == "Order Details" %>>
+          <%= link_to t("order_details"), edit_admin_order_url(@order) %>
+        </li>
+        <li<%== ' class="active"' if current == "Customer Details" %>>
+            <%= link_to t("customer_details"), user_admin_order_url(@order) %>
+        </li>
+      <% else %>
+        <li<%== ' class="active"' if current == "Order Details" %>>
+          <%= link_to t("order_details"), admin_order_url(@order) %>
+        </li>
+        <li<%== ' class="active"' if current == "Customer Details" %>>
+          <%= link_to t("customer_details"), user_admin_order_url(@order) %>
+        </li>
+      <% end %>
+
+
+
+    <% end %>
+  </ul>
+
+<% end %>

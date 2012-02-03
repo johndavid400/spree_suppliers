@@ -1,0 +1,13 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1><%= t("new_supplier") %></h1>
+
+<%= form_for @supplier, :url => collection_url, :html => { :multipart => true } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+
+  <p class="form-buttons">
+  <%= button t("new") %>
+  <%= t('or') %> <%= link_to t("cancel"), "#", :id => "cancel_link" %>
+  </p>
+<% end %>
+

@@ -1,0 +1,60 @@
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Company name:</td>
+    <td><%= f.text_field :title %></td>
+  </tr>
+  <tr>
+    <td valign="top">Company Description:</td>
+    <td><%= f.text_field :notes %></td>
+  </tr>
+</table>
+
+<h3>Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Phone:</td>
+    <td><%= f.text_field :phone %></td>
+  </tr>
+  <tr>
+    <td valign="top">Fax:</td>
+    <td><%= f.text_field :fax %></td>
+  </tr>
+  <tr>
+    <td valign="top">Email:</td>
+    <td><%= f.text_field :email %></td>
+  </tr>
+  <tr>
+    <td valign="top">Facebook:</td>
+    <td><%= f.text_field :facebook %></td>
+  </tr>
+  <tr>
+    <td valign="top">Twitter:</td>
+    <td><%= f.text_field :twitter %></td>
+  </tr>
+  <tr>
+    <td valign="top">Website:</td>
+    <td><%= f.text_field :website %></td>
+  </tr>
+</table>
+
+<h3>Proprietor Information</h3>
+<table class="admin-report" width="545">
+  <tr>
+    <td valign="top">Owner Name:</td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+</table>
+
+  <h3>Supplier Images</h3>
+  <%= f.fields_for :images do |image| %>
+    <% if !image.object.attachment_file_name.nil? %>
+      <span class="supplier_image">
+        <%= image_tag(image.object.attachment.url) %>
+      </span>
+    <% else %>
+        <p />
+        <h4><%= "Upload New Image" %></h4>
+        <%= image.file_field :attachment if image.object.attachment_file_name.nil? %>
+    <% end %>
+  <% end %>
+

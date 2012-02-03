@@ -1,0 +1,4 @@
+<p>
+  <%= f.label :supplier_id, t("suppliers")%><br />
+  <%= f.collection_select(:supplier_id, @suppliers, :id, :title, {:include_blank => true}) %>
+</p>

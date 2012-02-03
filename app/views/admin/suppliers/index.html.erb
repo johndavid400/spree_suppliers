@@ -1,0 +1,97 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+<h1>
+  <%= t("suppliers") %>
+</h1>
+<% if current_user.has_role?("admin") %>
+  <div class='toolbar'>
+    <ul class='actions'>
+      <li id="new_product_link">
+        <%= button_link_to "New Supplier", new_admin_supplier_path %>
+      </li>
+    </ul>
+    <br class='clear' />
+  </div>
+  <table class="index" width="545">
+    <thead>
+      <tr>
+        <th>
+          <%= t("supplier_name") %>
+        </th>
+        <th>
+          <%= t("notes") %>
+        </th>
+        <th>
+          Actions
+        </th>
+        <th>
+          Featured
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @suppliers.each do |supplier| %>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td>
+            <%= link_to supplier.title, edit_admin_supplier_path(supplier) %>
+          </td>
+          <td>
+            <%= truncate(supplier.notes, :length => 50) %>
+          </td>
+          <td class='actions'>
+            <%= link_to_edit supplier, :class => 'edit' %>
+            &nbsp;
+            <%= link_to_delete supplier %>
+          </td>
+          <td>
+            <% if supplier.featured %>
+              <%= link_to "Yes", admin_supplier_feature_path(supplier) %>
+            <% else %>
+              <%= link_to "No", admin_supplier_feature_path(supplier) %>
+            <% end %>
+          </td>
+      </tr><% end %>
+    </tbody>
+  </table>
+<% else %>
+  <table class="index" width="545">
+    <thead>
+      <tr>
+        <th>
+          <%= t("supplier_name") %>
+        </th>
+        <th>
+          <%= t("notes") %>
+        </th>
+        <th>
+          Actions
+        </th>
+        <th>
+          Featured
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+            <%= link_to @supplier.title, edit_admin_supplier_path(@supplier) %>
+          </td>
+          <td>
+            <%= truncate(@supplier.notes, :length => 50) %>
+          </td>
+          <td class='actions'>
+            <%= link_to_edit @supplier, :class => 'edit' %>
+          </td>
+          <td>
+            <% if @supplier.featured %>
+              Yes
+            <% else %>
+              No
+            <% end %>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+<% if current_user.has_role?("admin") %>
+  <%= link_to t("new_supplier"), new_object_url %>
+<% end %>

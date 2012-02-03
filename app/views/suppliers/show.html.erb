@@ -1,0 +1,11 @@
+<div id="spree_suppliers_show">
+    <h2><%= @supplier.title %></h2>
+    <%- if @supplier.name %>
+      <ul>
+        <li><%= @supplier.name %></li>
+        <li><%= @supplier.description %></li>
+        <li><%= @supplier.notes %></li>
+      </ul>
+    <% end %>
+</div>
+

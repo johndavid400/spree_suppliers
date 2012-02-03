@@ -1,0 +1,34 @@
+<div class='toolbar order-links'>
+  <%= hook :admin_order_show_buttons do %>
+    <% if !current_user.has_role?("vendor") %>
+       <%= button_link_to t("cancel"), fire_admin_order_url(@order.number, {:e => "cancel"}), :icon => 'delete', :confirm => t('are_you_sure') if @order.can_cancel? %>
+      <%= button_link_to t("edit"), edit_admin_order_url(@order.number), :icon => 'edit' %>
+    <% end %>
+  <% end %>
+</div>
+
+<% render :partial => 'admin/shared/order_tabs_decide', :locals => {:current => "Order Details"} %>
+<%= hook :admin_order_show_addresses do %>
+  <% if @order.bill_address %>
+    <div class='adr'>
+      <h4><%= t("bill_address") %></h4>
+      <%= render :partial => 'admin/shared/address', :locals => {:address => @order.bill_address} %>
+    </div>
+  <% end %>
+  <% if @order.ship_address %>
+    <div class='adr'>
+      <h4><%= t("ship_address") %></h4>
+      <%= render :partial => 'admin/shared/address', :locals => {:address => @order.ship_address} %>
+    </div>
+    <% end %>
+  <hr />
+<% end %>
+<% if !current_user.has_role?("vendor") %>
+  <%= hook :admin_order_show_details do %>
+    <%= render :partial => 'admin/shared/order_details', :locals => {:order => @order} %>
+  <% end %>
+
+<% end %>
+<h3><%= t("Supplier_Invoices") %></h3>
+<%= render :partial => 'shared/supplier_invoices', :locals => {:order => @order} %>
+

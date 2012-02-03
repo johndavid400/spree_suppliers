@@ -1,0 +1,11 @@
+<li>
+<div class="vendor-image">
+  <%= link_to supplier.images.first supplier_path(supplier)  %>
+</div>
+<div class="article-content">
+  <h3><%= link_to supplier.title, supplier_path(supplier) %> </h3>
+  <p class="supplier_about">
+  <%= supplier.notes%> <br />
+  <span class="phone"><%= supplier.phone %></span></p>
+</div>
+</li>

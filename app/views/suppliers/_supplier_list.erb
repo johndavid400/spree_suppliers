@@ -1,0 +1,13 @@
+<li class="suppliers">
+<div class="vendor-image">
+  <%= link_to supplier.images.first, supplier_path(supplier) %>
+</div>
+<div class="article-content">
+  <% if supplier.title %>
+    <h4><%= link_to supplier.title, supplier_path(supplier) %> </h4>
+  <% else %>
+    <h4><%= link_to supplier.name, supplier_path(supplier) %> </h4>
+  <% end %>
+  </p>
+</div>
+</li>

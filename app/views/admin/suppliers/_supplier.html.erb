@@ -1,0 +1,24 @@
+<h2>Supplier Info: <%= supplier.title %></h2>
+<ul>
+  <li><b>Company name:</b> <%= supplier.title %></li>
+  <li><b>Vendor page:</b> <%= link_to supplier.title, supplier_path(supplier) %></li>
+  <li><b>Description:</b> <%= supplier.notes %></li>
+  <li><b>Phone:</b> <%= supplier.phone %></li>
+  <li><b>Fax:</b><%= supplier.fax %></li>
+  <li><b>Email:</b><%= supplier.email %></li>
+  <li><b>Facebook:</b><%= supplier.facebook %></li>
+  <li><b>Twitter:</b><%= supplier.twitter %></li>
+  <li><b>Website:</b><%= supplier.website %></li>
+</ul>
+<h2>Proprietor Info</h2>
+<ul>
+  <li><b>Owner Name:</b><%= supplier.name %></li>
+</ul>
+
+<h2>Images</h2>
+<% supplier.images.each do |image| %>
+  <ul>
+    <li><%= image_tag(image.attachment)%></li>
+  </ul>
+<% end %>
+

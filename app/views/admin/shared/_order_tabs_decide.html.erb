@@ -1,0 +1,5 @@
+<% if current_user.has_role?("vendor") %>
+  <%= render :partial => 'admin/shared/vendor_order_tabs', :locals => {:current => current}%>
+<% else %>
+  <%= render :partial => 'admin/shared/order_tabs', :locals => {:current => current} %>
+<% end %>
