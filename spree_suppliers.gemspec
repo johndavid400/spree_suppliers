@@ -20,5 +20,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '>= 0.70.3'
   s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'cucumber-rails'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'database_cleaner'
+  s.add_development_dependency 'nokogiri'
+
 end
 
