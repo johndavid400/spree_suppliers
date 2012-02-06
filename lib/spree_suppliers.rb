@@ -182,7 +182,7 @@ module SpreeSuppliers
       end
 
       User.class_eval do
-        belongs_to :supplier
+        has_one :supplier
       end
 
     end
