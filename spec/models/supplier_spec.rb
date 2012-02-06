@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ClientApplication do
+describe Supplier do
   it { should validate_uniqueness_of(:name) }
   it { should validate_uniqueness_of(:title) }
 
