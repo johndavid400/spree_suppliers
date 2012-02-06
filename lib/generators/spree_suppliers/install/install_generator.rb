@@ -1,4 +1,4 @@
-module SpreeSupplier
+module SpreeSuppliers
   module Generators
     class InstallGenerator < Rails::Generators::Base
 
