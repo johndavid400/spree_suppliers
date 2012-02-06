@@ -74,7 +74,7 @@ There is a mailer in place that will send each individual supplier an email anyt
 
 - config/initializers/supplier_invoice_mailer.rb
 
-#### to enable supplier invoice mailer, uncomment line:238:
+#### to enable supplier invoice mailer, uncomment line:84 and line:95:
 
 - lib/spree_suppliers.rb
 
