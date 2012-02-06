@@ -13,5 +13,5 @@ describe Supplier do
   it { should have_many(:images) }
   it { should have_many(:products) }
 
-  it { should have_many(:taxons).through(:suppliers_taxons) }
+  it { should has_and_belongs_to_many(:taxons) }
 end
