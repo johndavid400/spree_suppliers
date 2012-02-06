@@ -1,8 +1,10 @@
 # Spree Suppliers Extension
 
-This is an extension to run on top of spree 0.60.3 rails ecommerce engine.
+This is an extension to run on top of Spree 0.70.3 rails ecommerce engine.
 
-This extension provides functionality to use multiple suppliers/vendors, each selling their own products, but using a unified listing view so the customer is not affected by this and only makes one transaction. On the backend, smaller sub-orders called supplier invoices are created by grouping the products in an order by each product's supplier_id. A subtotal is generated for each supplier invoice, so the spree administrator can send out invoices to each supplier.
+This gem (spree extension) provides support for multiple suppliers in one store, each selling their own products. Products should be assigned to the supplier that they belong to, which allows the customer to select a supplier and view only their products. Suppliers can be associated with Taxons, which allows the customer to search for supplier's products by taxon.
+
+Orders are also broken up into individual supplier_invoices upon order completion (one for each different supplier in the order), which list only the products that were purchased from that supplier. A mailer is in place (though disabled until you add your email smtp credentials) to send each supplier their unique invoice describing what products they have sold and to whom. The spree order mailer has also been modified to show all of the supplier invoices to the customer, along with the standard spree order number and info. The checkout process is combined so the customer only makes one transaction - the transaction can then be divided up amongst the suppliers involved in the transaction, according to the supplier_invoices. There is also an option for the site administrator to charge a percentage fee on each transaction to suppliers (this is currently set to 0%, but can be changed).
 
 ______________________________
 
@@ -25,20 +27,13 @@ ______________________________
 #### then run the following:
 
 - bundle install
-
-##### For Spree 0.60.x
-- rake spree:install
-- rake spree_suppliers:install
-
-##### For Spree 0.70.x
 - rails g spree:site
 - rails g spree_suppliers:install
-
 - rake db:migrate
 - rake db:seed
 - rake db:admin:create
 
-- (If you would like some sample seed data for suppliers, copy the seeds.rb file from the gem to your project home db/)
+- (If you would like some sample seed data for suppliers, copy the seeds.rb file and seeds folder from the gem to your project home db/)
 
 ### That's it for installation!
 
@@ -67,9 +62,10 @@ ______________________________
 
 Before being able to check out with the new changes, go to /admin and do the following things:
 
-1. create a vendor (with valid address)
+1. create a supplier
+2. create a shipping method
 3. create a payment method (use "check" to test with)
-6. add product for vendor to use - then edit to assign new product to the vendor
+6. add product for supplier to use - then edit product and assign to to the desired supplier
 
 Go through checkout process normally, then check orders page on the admin panel to view the details of an order and all supplier invoices that are created.
 
