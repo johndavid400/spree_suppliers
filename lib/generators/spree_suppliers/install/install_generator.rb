@@ -2,6 +2,8 @@ module SpreeSupplier
   module Generators
     class InstallGenerator < Rails::Generators::Base
 
+      include Rails::Generators::Migration
+
       def add_javascripts
         append_file "app/assets/javascripts/store/all.js", "//= require store/spree_suppliers\n"
         append_file "app/assets/javascripts/admin/all.js", "//= require admin/spree_suppliers\n"
