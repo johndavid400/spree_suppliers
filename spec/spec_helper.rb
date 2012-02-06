@@ -27,5 +27,16 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  config.before :each do
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.start
+    Supplier.build(:name => "Test Supplier", :title => "Test Title")
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
+
 end
