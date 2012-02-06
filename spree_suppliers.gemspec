@@ -2,15 +2,15 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_suppliers'
-  s.version     = '0.70.3'
+  s.version     = '0.1.0'
   s.summary     = 'This gem adds multiple suppliers to spree, with the ability to associate products with suppliers. Suppliers can be managed from the Admin interface.'
   s.description = 'Add (optional) gem description here'
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 1.9.2'
 
-  # s.author            = 'JD Warren and Han Dao'
-  # s.email             = 'jd@isotope11.com'
-  # s.homepage          = 'github.com/johndavid400/spree_suppliers'
-  # s.rubyforge_project = 'spree_suppliers'
+  s.author            = 'JD Warren and Han Dao'
+  s.email             = 'jd@isotope11.com'
+  s.homepage          = 'http://github.com/johndavid400/spree_suppliers'
+  s.rubyforge_project = 'spree_suppliers'
 
   #s.files         = `git ls-files`.split("\n")
   #s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
