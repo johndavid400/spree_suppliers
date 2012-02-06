@@ -1,6 +1,4 @@
 class Supplier < ActiveRecord::Base
-  validates_presence_of :name, :title
-  validates_uniqueness_of :name, :title
   has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
   accepts_nested_attributes_for :images
   has_one :user
