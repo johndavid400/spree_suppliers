@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Supplier do
+
+  FactoryGirl.build(:supplier, :name => 'Joe', :title => "Joe's Plumbing")
+
   it { should validate_uniqueness_of(:name) }
   it { should validate_uniqueness_of(:title) }
 
