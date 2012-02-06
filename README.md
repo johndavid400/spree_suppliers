@@ -19,17 +19,26 @@ ______________________________
 
 - gem 'rails', '3.1.3'
 - gem 'sqlite3'
-- gem 'spree', '0.70.3'
+- gem 'spree'
 - gem 'spree_suppliers'
 
-#### then run:
+#### then run the following:
 
 - bundle install
+
+##### For Spree 0.60.x
 - rake spree:install
 - rake spree_suppliers:install
+
+##### For Spree 0.70.x
+- rails g spree:site
+- rails g spree_suppliers:install
+
 - rake db:migrate
 - rake db:seed
 - rake db:admin:create
+
+- (If you would like some sample seed data for suppliers, copy the seeds.rb file from the gem to your project home db/)
 
 ### That's it for installation!
 
