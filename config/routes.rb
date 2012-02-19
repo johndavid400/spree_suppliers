@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Spree::Core::Engine.routes.append do
   # Add your extension routes here
   resources :suppliers
   resources :supplier_invoices

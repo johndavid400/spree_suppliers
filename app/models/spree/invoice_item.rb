@@ -1,4 +1,4 @@
-class InvoiceItem < ActiveRecord::Base
+class Spree::InvoiceItem < ActiveRecord::Base
   belongs_to :supplier_invoice
   belongs_to :line_item
 end

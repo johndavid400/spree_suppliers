@@ -1,5 +1,5 @@
-class Supplier < ActiveRecord::Base
-  has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
+class Spree::Supplier < ActiveRecord::Base
+  has_many :images, :class_name=> 'Spree::Image', :as => :viewable, :order => :position, :dependent => :destroy
   accepts_nested_attributes_for :images
   belongs_to :user
   has_many :supplier_invoices

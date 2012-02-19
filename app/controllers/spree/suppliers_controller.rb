@@ -1,5 +1,5 @@
 class SuppliersController < Spree::BaseController
-  helper :products
+  helper 'spree/products'
   respond_to :html
 
   def index
