@@ -87,7 +87,7 @@ module SpreeSuppliers
 
         def finalize!
           update_attribute(:completed_at, Time.now)
-          InventoryUnit.assign_opening_inventory(self)
+          Spree::InventoryUnit.assign_opening_inventory(self)
           # lock any optional adjustments (coupon promotions, etc.)
           adjustments.optional.each { |adjustment| adjustment.update_attribute('locked', true) }
           # generate the invoices for each supplier
