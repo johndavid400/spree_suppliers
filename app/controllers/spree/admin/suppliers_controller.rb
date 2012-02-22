@@ -36,7 +36,6 @@ class Spree::Admin::SuppliersController < Spree::Admin::ResourceController
   end
 
   def destroy
-    debugger
     @supplier = Spree::Supplier.find(params[:id])
     @supplier.destroy
     flash[:notice] = "Supplier Successfully deleted."
