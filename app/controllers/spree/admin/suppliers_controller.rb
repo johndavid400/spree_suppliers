@@ -36,10 +36,11 @@ class Spree::Admin::SuppliersController < Spree::Admin::ResourceController
   end
 
   def destroy
+    debugger
     @supplier = Spree::Supplier.find(params[:id])
     @supplier.destroy
     flash[:notice] = "Supplier Successfully deleted."
-    respond_with(@product) do |format|
+    respond_with(@supplier) do |format|
       format.html { redirect_to collection_url }
       format.js do
         render :update do |page|
