@@ -1,5 +1,6 @@
 class Spree::Admin::SupplierTaxonsController < Spree::Admin::BaseController
-  helper "admin/taxons"
+#  include Railslove::Plugins::FindByParam::SingletonMethods
+  helper "spree/admin/taxons"
 
   respond_to :html, :json, :js
 
