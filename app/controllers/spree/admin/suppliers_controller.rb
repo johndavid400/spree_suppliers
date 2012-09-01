@@ -72,7 +72,7 @@ class Spree::Admin::SuppliersController < Spree::Admin::ResourceController
   end
 
   def line_items
-    @order = Order.find_by_number(params[:order_id])
+    @order = Spree::Order.find_by_number(params[:order_id])
   end
 
   def selected

@@ -1,7 +1,7 @@
 <%= render :partial => 'spree/admin/suppliers/supplier_tabs', :locals => {:current => "Taxons"} %>
 
 <div id="selected-taxons">
-  <%= render :partial => "taxon_table", :locals => {:taxons => @taxons} %>
+  <%= render :partial => "spree/admin/supplier_taxons/taxon_table", :locals => {:taxons => @taxons} %>
 </div>
 
 <%= form_tag('#') do %>
