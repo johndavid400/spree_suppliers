@@ -1,6 +1,6 @@
 # Spree Suppliers Extension
 
-This is an extension to run on top of Spree 0.70.3 rails ecommerce engine.
+This is an extension to run on top of Spree 1.3.2 rails ecommerce engine.
 
 This gem (spree extension) provides support for multiple suppliers in one store, each selling their own products. Products should be assigned to the supplier that they belong to, which allows the customer to select a supplier and view only their products. Suppliers can be associated with Taxons, which allows the customer to search for supplier's products by taxon.
 
@@ -12,49 +12,41 @@ ______________________________
 
 ### you must first have a running rails app:
 
-- rails new spree_suppliers_test
-- cd spree_suppliers_test
+    gem install rails, "~> 3.2.13"
+    gem install spree, "~> 1.3.2"
+    rails new spree_suppliers_test
+    spree install spree_suppliers_test
+    cd spree_suppliers_test
 
 ### Now set up your Gemfile and install:
 
 ####  Add to Gemfile:
 
-- gem 'rails', '3.1.3'
-- gem 'sqlite3'
-- gem 'spree'
-- gem 'spree_suppliers'
+    gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git', :branch '1.3.2'
 
 #### then run the following:
 
-- bundle install
-- rails g spree:site
-- rails g spree_suppliers:install
-- rake db:migrate
-- rake db:seed
-- rake db:admin:create
+    bundle install
+    rails g spree_suppliers:install
+    rake db:migrate
+    rake db:seed
+    rake db:admin:create
 
 - (If you would like some sample seed data for suppliers, copy the seeds.rb file and seeds folder from the gem to your project home db/)
 
 ### That's it for installation!
 
-- rails s
+    rails s
+
 - visit localhost:3000
 
 ______________________________
 
-### Alternatively,
-To get the latest updates, you can install the spree_suppliers extension from github instead of rubygems:
-
-
-#### Add to Gemfile:
-
-- gem 'spree_suppliers', :git => 'git://github.com/johndavid400/spree_suppliers.git'
-
 #### run the following:
 
-- bundle install
-- rake spree_suppliers:install
-- rake db:migrate
+    bundle install
+    rake spree_suppliers:install
+    rake db:migrate
 
 ______________________________
 
