@@ -1,4 +1,5 @@
 class Spree::Supplier < ActiveRecord::Base
+  attr_accessible :title, :notes, :phone, :fax, :email, :facebook, :twitter, :website, :name, :image, :image_file_name
   has_many :images, :class_name=> 'Spree::Image', :as => :viewable, :order => :position, :dependent => :destroy
   accepts_nested_attributes_for :images
   belongs_to :user

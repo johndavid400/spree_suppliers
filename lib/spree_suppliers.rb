@@ -6,6 +6,12 @@ module SpreeSuppliers
     config.autoload_paths += %W(#{config.root}/lib)
     def self.activate
 
+      Spree::User.class_eval do
+        def has_role?(role)
+          self.spree_roles.include?(Spree::Role.find_by_name(role))
+        end
+      end
+
       Spree::LineItem.class_eval do
         has_many :invoice_items
       end
@@ -19,7 +25,7 @@ module SpreeSuppliers
           load_order
           # optional fee that admin can charge to sell suppliers products for them
           @fee = 0.10
-          if current_user.has_role?("vendor")
+          if current_user.has_role?(Spree::Role.find_by_name("vendor"))
             @invoices = @order.supplier_invoices
             @invoices.select! {|s| s.supplier_id == current_user.supplier.id}
           else
@@ -28,34 +34,6 @@ module SpreeSuppliers
           respond_with(@order)
         end
 
-        def index
-          params[:search] ||= {}
-          params[:search][:completed_at_is_not_null] ||= '1' if Spree::Config[:show_only_complete_orders_by_default]
-          @show_only_completed = params[:search][:completed_at_is_not_null].present?
-          params[:search][:meta_sort] ||= @show_only_completed ? 'completed_at.desc' : 'created_at.desc'
-
-          @search = Spree::Order.metasearch(params[:search])
-
-          if !params[:search][:created_at_greater_than].blank?
-            params[:search][:created_at_greater_than] = Time.zone.parse(params[:search][:created_at_greater_than]).beginning_of_day rescue ""
-          end
-
-          if !params[:search][:created_at_less_than].blank?
-            params[:search][:created_at_less_than] = Time.zone.parse(params[:search][:created_at_less_than]).end_of_day rescue ""
-          end
-
-          if @show_only_completed
-            params[:search][:completed_at_greater_than] = params[:search].delete(:created_at_greater_than)
-            params[:search][:completed_at_less_than] = params[:search].delete(:created_at_less_than)
-          end
-
-          @orders = Spree::Order.metasearch(params[:search]).includes([:user, :shipments, :payments]).page(params[:page]).per(Spree::Config[:orders_per_page])
-
-          if current_user.has_role?("vendor")
-            @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == current_user.supplier.id}.size > 0}
-          end
-          respond_with(@orders)
-        end
       end
 
       Spree::Order.class_eval do
@@ -109,8 +87,6 @@ module SpreeSuppliers
         before_filter :load_index, :only => [:index]
         before_filter :edit_before, :only => [:edit]
         create.before :create_before
-        create.fails :reset
-        update.before :update_taxons
 
         def load
           @suppliers = Spree::Supplier.find(:all, :order => "name")
@@ -118,7 +94,7 @@ module SpreeSuppliers
         end
 
         def load_index
-          if current_user.roles.member?(Spree::Role.find_by_name("vendor"))
+          if current_user.has_role?(Spree::Role.find_by_name("vendor"))
             @collection.select! {|c| c.supplier_id == current_user.supplier.id}
           end
         end
@@ -135,22 +111,12 @@ module SpreeSuppliers
           @status = false
         end
 
-        def taxon_push object
-          object.taxons = []
-          Spree::Taxon.all.map {|m| object.taxons.push(Spree::Taxon.find_by_id(params[m.name])) if params.member?(m.name)}
-          return object
-        end
-
-        def reset
-          @status = true
-        end
-
         def update_taxons
           @object = taxon_push(@object)
         end
 
         def create_before
-          if current_user.has_role?("vendor")
+          if current_user.has_role?(Spree::Role.find_by_name("vendor"))
             @object = current_user.supplier.products.build(params[:product])
           else
             @object = Spree::Product.new(params[:product])
