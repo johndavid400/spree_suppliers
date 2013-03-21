@@ -20,6 +20,7 @@ class Spree::Admin::SuppliersController < Spree::Admin::ResourceController
   def create
     @supplier = Spree::Supplier.new(params[:supplier])
     if @supplier.save
+      image = @supplier.images.create(:attachment => params[:image].tempfile)
       redirect_to spree.admin_suppliers_path, :notice => "New supplier created"
     else
       render "new"
