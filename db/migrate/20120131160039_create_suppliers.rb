@@ -1,6 +1,6 @@
 class CreateSuppliers < ActiveRecord::Migration
   def change
-    create_table :suppliers do |t|
+    create_table :spree_suppliers do |t|
 
       t.timestamps
     end

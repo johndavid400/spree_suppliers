@@ -1,4 +1,4 @@
-<%= render :partial => 'admin/shared/configuration_menu' %>
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
 <h1>
   <%= t("suppliers") %>
 </h1>
@@ -6,7 +6,7 @@
   <div class='toolbar'>
     <ul class='actions'>
       <li id="new_product_link">
-        <%= button_link_to "New Supplier", new_admin_supplier_path %>
+        <%= button_link_to "New Supplier", spree.new_admin_supplier_path %>
       </li>
     </ul>
     <br class='clear' />
@@ -32,7 +32,7 @@
       <% @suppliers.each do |supplier| %>
         <tr class="<%= cycle('even', 'odd') %>">
           <td>
-            <%= link_to supplier.title, edit_admin_supplier_path(supplier) %>
+            <%= link_to supplier.title, spree.edit_admin_supplier_path(supplier) %>
           </td>
           <td>
             <%= truncate(supplier.notes, :length => 50) %>
@@ -44,9 +44,9 @@
           </td>
           <td>
             <% if supplier.featured %>
-              <%= link_to "Yes", admin_supplier_feature_path(supplier) %>
+              <%= link_to "Yes", spree.admin_supplier_feature_path(supplier) %>
             <% else %>
-              <%= link_to "No", admin_supplier_feature_path(supplier) %>
+              <%= link_to "No", spree.admin_supplier_feature_path(supplier) %>
             <% end %>
           </td>
       </tr><% end %>
@@ -73,7 +73,7 @@
     <tbody>
         <tr>
           <td>
-            <%= link_to @supplier.title, edit_admin_supplier_path(@supplier) %>
+            <%= link_to @supplier.title, spree.edit_admin_supplier_path(@supplier) %>
           </td>
           <td>
             <%= truncate(@supplier.notes, :length => 50) %>
@@ -93,5 +93,5 @@
   </table>
 <% end %>
 <% if current_user.has_role?("admin") %>
-  <%= link_to t("new_supplier"), new_object_url %>
+  <%= link_to t("new_supplier"), spree.new_admin_supplier_url %>
 <% end %>

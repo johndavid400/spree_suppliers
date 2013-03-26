@@ -45,16 +45,4 @@
   </tr>
 </table>
 
-  <h3>Supplier Images</h3>
-  <%= f.fields_for :images do |image| %>
-    <% if !image.object.attachment_file_name.nil? %>
-      <span class="supplier_image">
-        <%= image_tag(image.object.attachment.url) %>
-      </span>
-    <% else %>
-        <p />
-        <h4><%= "Upload New Image" %></h4>
-        <%= image.file_field :attachment if image.object.attachment_file_name.nil? %>
-    <% end %>
-  <% end %>
-
+<%= render :partial => 'supplier_image_form' %>

@@ -1,0 +1,10 @@
+%li.suppliers
+  .vendor-image
+    = link_to supplier.images.first, supplier_path(supplier)
+  .article-content
+    - if supplier.title
+      = link_to supplier.title, supplier_path(supplier) 
+    - else
+      = link_to supplier.name, supplier_path(supplier) 
+
+
