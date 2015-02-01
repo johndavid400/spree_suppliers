@@ -7,8 +7,8 @@ class Admin::VendorOverviewController < Spree::BaseController
 
   before_filter :vendor
 
-  def vendor 
-    if !current_user.has_role?("vendor")
+  def vendor
+    if !spree_user.has_spree_role?("vendor")
       unauthorized
     end
   end

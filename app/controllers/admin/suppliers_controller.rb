@@ -3,10 +3,10 @@ class Admin::SuppliersController < Admin::BaseController
   respond_to :html, :js
 
   def index
-    if current_user.has_role?("admin")
+    if spree_user.has_spree_role?("admin")
       @suppliers = Supplier.all
     else
-      @supplier = current_user.supplier
+      @supplier = spree_current_user.supplier
     end
   end
 
