@@ -6,15 +6,15 @@ module SpreeSuppliers
     config.autoload_paths += %W(#{config.root}/lib)
     def self.activate
 
-      LineItem.class_eval do
+      Spree::LineItem.class_eval do
         has_many :invoice_items
       end
 
-      Image.class_eval do
+      Spree::Image.class_eval do
         belongs_to :supplier
       end
 
-      Admin::OrdersController.class_eval do
+      Spree::Admin::OrdersController.class_eval do
         def show
           load_order
           # optional fee that admin can charge to sell suppliers products for them
@@ -49,7 +49,7 @@ module SpreeSuppliers
             params[:search][:completed_at_less_than] = params[:search].delete(:created_at_less_than)
           end
 
-          @orders = Order.metasearch(params[:search]).includes([:user, :shipments, :payments]).page(params[:page]).per(Spree::Config[:orders_per_page])
+          @orders = Spree::Order.search(params[:search]).result.includes([:user, :shipments, :payments]).page(params[:page]).per(Spree::Config[:orders_per_page])
 
           if spree_current_user.has_spree_role?("vendor")
             @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == spree_user.supplier.id}.size > 0}
@@ -58,7 +58,7 @@ module SpreeSuppliers
         end
       end
 
-      Order.class_eval do
+      Spree::Order.class_eval do
         has_many :supplier_invoices
         def generate_invoices(order)
           @order = order
@@ -81,30 +81,30 @@ module SpreeSuppliers
             end
             invoice.update_attributes(:invoice_total => item_total)
             @invoice = invoice
-            #SupplierMailer.invoice_email(@invoice).deliver
+            SupplierMailer.invoice_email(@invoice).deliver
           end
         end
 
         def finalize!
           update_attribute(:completed_at, Time.now)
-          InventoryUnit.assign_opening_inventory(self)
+          Spree::InventoryUnit.assign_opening_inventory(self)
           # lock any optional adjustments (coupon promotions, etc.)
           adjustments.optional.each { |adjustment| adjustment.update_attribute('locked', true) }
           # generate the invoices for each supplier
           generate_invoices(self)
-          #OrderMailer.confirm_email(self).deliver
+          Spree::OrderMailer.confirm_email(self).deliver
 
           self.state_events.create({
             :previous_state => 'cart',
             :next_state => 'complete',
             :name => 'order' ,
-            :user_id => (User.respond_to?(:current) && User.current.try(:id)) || self.user_id
+            :user_id => (Spree::User.respond_to?(:current) && Spree::User.current.try(:id)) || self.user_id
           })
         end
       end
 
 
-      Admin::ProductsController.class_eval do
+      Spree::Admin::ProductsController.class_eval do
         before_filter :load
         before_filter :load_index, :only => [:index]
         before_filter :edit_before, :only => [:edit]
@@ -114,7 +114,7 @@ module SpreeSuppliers
 
         def load
           @suppliers = Supplier.find(:all, :order => "name")
-          @options = Taxon.all
+          @options = Spree::Taxon.all
         end
 
         def load_index
@@ -125,7 +125,7 @@ module SpreeSuppliers
 
         #indicate that we want to create a new product
         def new
-          @object = Product.new()
+          @object = Spree::Product.new()
           @status = true
           @suppliers = Supplier.all
         end
@@ -137,7 +137,7 @@ module SpreeSuppliers
 
         def taxon_push object
           object.taxons = []
-          Taxon.all.map {|m| object.taxons.push(Taxon.find_by_id(params[m.name])) if params.member?(m.name)}
+          Spree::Taxon.all.map {|m| object.taxons.push(Spree::Taxon.find_by_id(params[m.name])) if params.member?(m.name)}
           return object
         end
 
@@ -153,35 +153,35 @@ module SpreeSuppliers
           if spree_user.has_spree_role?("vendor")
             @object = spree_current_user.supplier.products.build(params[:product])
           else
-            @object = Product.new(params[:product])
+            @object = Spree::Product.new(params[:product])
           end
           @object = taxon_push(@object)
         end
 
         def publish
-          p = Product.find_by_name(params[:id])
+          p = Spree::Product.find_by_name(params[:id])
           p.available_on = Date.today
           p.save
           redirect_to edit_admin_product_path(p)
         end
 
         def unpublish
-          p = Product.find_by_name(params[:id])
+          p = Spree::Product.find_by_name(params[:id])
           p.available_on = nil
           p.save
           redirect_to edit_admin_product_path(p)
         end
       end
 
-      Product.class_eval do
+      Spree::Product.class_eval do
         belongs_to :supplier
       end
 
-      Taxon.class_eval do
+      Spree::Taxon.class_eval do
         has_and_belongs_to_many :suppliers
       end
 
-      User.class_eval do
+      Spree::User.class_eval do
         has_one :supplier
       end
 
