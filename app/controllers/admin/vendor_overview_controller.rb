@@ -12,7 +12,7 @@ class Admin::VendorOverviewController < Spree::BaseController
       unauthorized
     end
   end
-  def index 
-    
+  def index
+
   end
 end
