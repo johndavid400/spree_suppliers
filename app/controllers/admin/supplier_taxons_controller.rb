@@ -1,5 +1,4 @@
 class Spree::Admin::SupplierTaxonsController < Spree::Admin::BaseController
-  helper "admin/taxons"
 
   respond_to :html, :json, :js
 
