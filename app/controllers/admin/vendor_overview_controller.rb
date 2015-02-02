@@ -1,4 +1,4 @@
-class Admin::VendorOverviewController < Spree::BaseController
+class Spree::Admin::VendorOverviewController < Spree::BaseController
   ssl_required
 
   helper :search
