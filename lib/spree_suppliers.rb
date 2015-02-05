@@ -49,10 +49,10 @@ module SpreeSuppliers
             params[:q][:completed_at_lt] = params[:q].delete(:created_at_lt)
           end
 
-          @orders = Spree::Order.search(params[:search]).result.includes([:user, :shipments, :payments]).page(params[:page]).per(Spree::Config[:orders_per_page])
+          @orders = Spree::Order.search(params[:q]).result.includes([:user, :shipments, :payments]).page(params[:page]).per(Spree::Config[:orders_per_page])
 
           if spree_current_user.has_spree_role?("vendor")
-            @orders.select! {|o| o.supplier_invoices.select {|s| s.supplier_id == spree_user.supplier.id}.size > 0}
+            @orders.select {|o| o.supplier_invoices.select {|s| s.supplier_id == spree_user.supplier.id}.size > 0}
           end
           respond_with(@orders)
         end
@@ -113,13 +113,13 @@ module SpreeSuppliers
         update.before :update_taxons
 
         def load
-          @suppliers = Supplier.find(:all, :order => "name")
+          @suppliers = Supplier.order(:name)
           @options = Spree::Taxon.all
         end
 
         def load_index
           if spree_current_user.roles.member?(Spree::Role.find_by_name("vendor"))
-            @collection.select! {|c| c.supplier_id == spree_current_user.supplier.id}
+            @collection.select {|c| c.supplier_id == spree_current_user.supplier.id}
           end
         end
 

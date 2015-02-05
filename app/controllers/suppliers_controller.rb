@@ -1,5 +1,4 @@
 class SuppliersController < Spree::BaseController
-  helper :products
   respond_to :html
 
   def index
@@ -10,6 +9,6 @@ class SuppliersController < Spree::BaseController
 
   def show
     @supplier = Supplier.find(params[:id])
-    @products = Product.find(:all, :conditions => { :supplier_id => @supplier.id , :deleted_at => nil })
+    @products = Spree::Product.find(:all, :conditions => { :supplier_id => @supplier.id , :deleted_at => nil })
   end
 end

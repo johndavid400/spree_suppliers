@@ -1,8 +1,6 @@
 class Spree::Admin::VendorOverviewController < Spree::BaseController
   ssl_required
 
-  helper :search
-  helper 'admin/navigation'
   layout 'admin'
 
   before_filter :vendor
