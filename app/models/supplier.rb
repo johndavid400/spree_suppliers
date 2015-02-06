@@ -5,4 +5,8 @@ class Supplier < ActiveRecord::Base
   has_many :supplier_invoices
   has_and_belongs_to_many :taxons
   has_many :products
+  
+  after_save do
+    Rails.cache.delete('suppliers')
+  end
 end
