@@ -1,6 +1,6 @@
 <div class='toolbar order-links'>
   <%= hook :admin_order_show_buttons do %>
-    <% if !current_user.has_role?("vendor") %>
+    <% if !spree_user.has_spree_role?("vendor") %>
        <%= button_link_to t("cancel"), fire_admin_order_url(@order.number, {:e => "cancel"}), :icon => 'delete', :confirm => t('are_you_sure') if @order.can_cancel? %>
       <%= button_link_to t("edit"), edit_admin_order_url(@order.number), :icon => 'edit' %>
     <% end %>
@@ -23,7 +23,7 @@
     <% end %>
   <hr />
 <% end %>
-<% if !current_user.has_role?("vendor") %>
+<% if !spree_user.has_spree_role?("vendor") %>
   <%= hook :admin_order_show_details do %>
     <%= render :partial => 'admin/shared/order_details', :locals => {:order => @order} %>
   <% end %>

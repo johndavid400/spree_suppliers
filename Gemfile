@@ -3,14 +3,14 @@ source 'http://rubygems.org'
 gem 'sqlite3'
 
 group :test do
-  gem 'rspec-rails', '= 2.6.1'
+  gem 'rspec-rails'
 end
 
 group :cucumber do
-  gem 'cucumber-rails', '1.0.0'
-  gem 'database_cleaner', '= 0.6.7'
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
   gem 'nokogiri'
-  gem 'capybara', '1.0.1'
+  gem 'capybara'
 end
 
 if RUBY_VERSION < "1.9"

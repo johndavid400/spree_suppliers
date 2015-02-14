@@ -1,8 +1,8 @@
-<%= render :partial => 'admin/shared/configuration_menu' %>
+<%= render :partial => 'spree/admin/shared/tabs' %>
 <h1>
   <%= t("suppliers") %>
 </h1>
-<% if current_user.has_role?("admin") %>
+<% if spree_current_user.has_spree_role?("admin") %>
   <div class='toolbar'>
     <ul class='actions'>
       <li id="new_product_link">
@@ -92,6 +92,6 @@
     </tbody>
   </table>
 <% end %>
-<% if current_user.has_role?("admin") %>
+<% if spree_user.has_spree_role?("admin") %>
   <%= link_to t("new_supplier"), new_object_url %>
 <% end %>

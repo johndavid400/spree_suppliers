@@ -1,12 +1,11 @@
-class Admin::SuppliersController < Admin::BaseController
-  resource_controller
+class Spree::Admin::SuppliersController < Spree::Admin::BaseController
   respond_to :html, :js
 
   def index
-    if current_user.has_role?("admin")
+    if spree_current_user.has_spree_role?("admin")
       @suppliers = Supplier.all
     else
-      @supplier = current_user.supplier
+      @supplier = spree_current_user.supplier
     end
   end
 
@@ -71,7 +70,7 @@ class Admin::SuppliersController < Admin::BaseController
   end
 
   def line_items
-    @order = Order.find_by_number(params[:order_id])
+    @order = Spree::Order.find_by_number(params[:order_id])
   end
 
   def selected
@@ -106,22 +105,4 @@ class Admin::SuppliersController < Admin::BaseController
     @supplier = @product.supplier
     render :layout => false
   end
-
-
-  update.response do |wants|
-    wants.html { redirect_to collection_url }
-  end
-
-  update.after do
-    Rails.cache.delete('suppliers')
-  end
-
-  create.response do |wants|
-    wants.html { redirect_to collection_url }
-  end
-
-  create.after do
-    Rails.cache.delete('suppliers')
-  end
-
 end

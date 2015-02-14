@@ -1,26 +1,24 @@
-class Admin::SupplierTaxonsController < Admin::BaseController
-  include Railslove::Plugins::FindByParam::SingletonMethods
-  helper "admin/taxons"
+class Spree::Admin::SupplierTaxonsController < Spree::Admin::BaseController
 
   respond_to :html, :json, :js
 
   def selected
     @supplier = load_supplier
     @taxons = @supplier.taxons
-    @options = Taxon.all
+    @options = Spree::Taxon.all
     respond_with(:admin, @taxons)
   end
 
   def available
     @supplier = load_supplier
-    @taxons = params[:q].blank? ? [] : Taxon.where('lower(name) LIKE ?', "%#{params[:q].mb_chars.downcase}%")
+    @taxons = params[:q].blank? ? [] : Spree::Taxon.where('lower(name) LIKE ?', "%#{params[:q].mb_chars.downcase}%")
     @taxons.delete_if { |taxon| @supplier.taxons.include?(taxon) }
     respond_with(:admin, @taxons)
   end
 
   def remove
     @supplier = load_supplier
-    @taxon = Taxon.find(params[:id])
+    @taxon = Spree::Taxon.find(params[:id])
     @supplier.taxons.delete(@taxon)
     @supplier.save
     @taxons = @supplier.taxons
@@ -29,7 +27,7 @@ class Admin::SupplierTaxonsController < Admin::BaseController
 
   def select
     @supplier = load_supplier
-    @taxon = Taxon.find(params[:id])
+    @taxon = Spree::Taxon.find(params[:id])
     @supplier.taxons << @taxon
     @supplier.save
     @taxons = @supplier.taxons
@@ -38,7 +36,7 @@ class Admin::SupplierTaxonsController < Admin::BaseController
 
   def batch_select
     @supplier = load_supplier
-    @taxons = params[:taxon_ids].map{|id| Taxon.find(id)}.compact
+    @taxons = params[:taxon_ids].map{|id| Spree::Taxon.find(id)}.compact
     @supplier.taxons = @taxons
     @supplier.save
     redirect_to selected_admin_supplier_taxons_url(@supplier)
@@ -47,7 +45,7 @@ class Admin::SupplierTaxonsController < Admin::BaseController
   def update_taxons
     @supplier = Supplier.find params[:supplier_id]
     @supplier.taxons = []
-    @supplier.taxons.push(Taxon.all.select{|t| params[t.name.to_s] })
+    @supplier.taxons.push(Spree::Taxon.all.select{|t| params[t.name.to_s] })
     @supplier.save
     redirect_to :back, :notice => "Taxons successfully added"
   end

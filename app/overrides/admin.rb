@@ -1,5 +1,5 @@
-Deface::Override.new(:virtual_path => "layouts/admin",
-                     :name => "suppliers_tabs",
-                     :insert_bottom => "[data-hook='admin_tabs'], #admin_tabs[data-hook]",
-                     :text => "<%= tab(:suppliers) %>",
+Deface::Override.new(:virtual_path => "spree/admin/shared/_tabs",
+                     :name => "suppliers_tab",
+                     :insert_after => "erb[silent]:last-child",
+                     :text => "<% if can?(:admin, Suppliers) %><%= tab [:suppliers], icon: 'user' %><% end %>",
                      :disabled => false)
