@@ -2,7 +2,7 @@ class Spree::Admin::SuppliersController < Spree::Admin::BaseController
   respond_to :html, :js
 
   def index
-    if spree_user.has_spree_role?("admin")
+    if spree_current_user.has_spree_role?("admin")
       @suppliers = Supplier.all
     else
       @supplier = spree_current_user.supplier

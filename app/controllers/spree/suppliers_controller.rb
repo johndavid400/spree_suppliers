@@ -1,9 +1,9 @@
-class SuppliersController < Spree::BaseController
+class Spree::SuppliersController < Spree::BaseController
   respond_to :html
 
   def index
-    @search = Supplier.search(params[:search])
-    @suppliers = @search.all
+    @q = Supplier.search(params[:q])
+    @suppliers = @q.result
     respond_with(@suppliers)
   end
 

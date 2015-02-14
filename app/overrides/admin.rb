@@ -1,5 +1,5 @@
 Deface::Override.new(:virtual_path => "spree/admin/shared/_tabs",
-                     :name => "suppliers_tabs",
+                     :name => "suppliers_tab",
                      :insert_after => "erb[silent]:last-child",
-                     :text => "<% if can?(:admin, Spree::Supplier) %><%= tab :suppliers, icon: 'user' %><% end %>",
+                     :text => "<% if can?(:admin, Suppliers) %><%= tab [:suppliers], icon: 'user' %><% end %>",
                      :disabled => false)
